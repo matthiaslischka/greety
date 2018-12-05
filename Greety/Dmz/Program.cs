@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Greety
+namespace Greety.Dmz
 {
     public static class Program
     {
@@ -10,6 +10,7 @@ namespace Greety
             Greet(output);
         }
 
+        // TODO: Move this to the HappyZone!
         public static void Greet(Action<string> output)
         {
             output("Hello World!");

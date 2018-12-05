@@ -4,7 +4,7 @@ using System.IO;
 using FluentAssertions;
 using Xunit;
 
-namespace Greety.Tests
+namespace Greety.Tests.HorribleOutsideWorld
 {
     public class BlackBoxTests
     {

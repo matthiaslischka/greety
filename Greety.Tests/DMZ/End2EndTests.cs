@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
 using FluentAssertions;
+using Greety.Dmz;
 using Xunit;
 
-namespace Greety.Tests
+namespace Greety.Tests.DMZ
 {
     public class End2EndTests
     {

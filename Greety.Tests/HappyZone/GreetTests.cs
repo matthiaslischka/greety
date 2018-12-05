@@ -1,7 +1,8 @@
 ﻿using FluentAssertions;
+using Greety.Dmz;
 using Xunit;
 
-namespace Greety.Tests
+namespace Greety.Tests.HappyZone
 {
     public class GreetTests
     {
