@@ -10,7 +10,7 @@ namespace Greety
             Greet(output);
         }
 
-        private static void Greet(Action<string> output)
+        public static void Greet(Action<string> output)
         {
             output("Hello World!");
         }
