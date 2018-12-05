@@ -1,18 +1,19 @@
 ﻿using FluentAssertions;
-using Greety.Dmz;
+using Greety.HappyZone;
 using Xunit;
 
 namespace Greety.Tests.HappyZone
 {
-    public class GreetTests
+    public class GreeterTests
     {
         [Fact]
         public void GreetsWithTheProperText()
         {
             string output = null;
+            var greeter = new Greeter();
 
             // Act
-            Program.Greet(msg => output = msg);
+            greeter.Greet(msg => output = msg);
 
             output.Should().Be("Hello World!");
         }
