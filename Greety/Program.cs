@@ -6,7 +6,8 @@ namespace Greety
     {
         public static void Main()
         {
-            Console.WriteLine("Hello World!");
+            Action<string> output = Console.WriteLine;
+            output("Hello World!");
         }
     }
 }
