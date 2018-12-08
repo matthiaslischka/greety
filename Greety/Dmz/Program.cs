@@ -7,10 +7,12 @@ namespace Greety.Dmz
     {
         public static void Main()
         {
-            Action<string> output = _ => { }; // Console.WriteLine;
+            var output = OutputAction;
 
             var greeter = new Greeter();
             greeter.Greet(output);
         }
+
+        public static Action<string> OutputAction => Console.WriteLine;
     }
 }
