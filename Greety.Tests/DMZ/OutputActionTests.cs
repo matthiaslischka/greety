@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Greety.Tests.DMZ
 {
+    [Collection("Tests depending on System.Console")]
     public class OutputActionTests
     {
         [Fact]
