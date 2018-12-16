@@ -2,9 +2,9 @@ version: 1.0.{build}
 image: Visual Studio 2017
 before_build:
 - cmd: >-
-    nuget add .\Greety package OpenCover
+    dotnet add .\Greety package OpenCover
 
-    nuget restore --packages .\packages
+    dotnet restore --packages .\packages
 build:
   verbosity: minimal
 test_script:
