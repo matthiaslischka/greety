@@ -4,7 +4,9 @@ before_build:
 - cmd: >-
     dotnet add .\Greety package OpenCover
 
-    dotnet restore --packages .\packages
+    dotnet restore .\Greety --packages .\packages
+
+    dotnet restore
 build:
   verbosity: detailed
 test_script:
