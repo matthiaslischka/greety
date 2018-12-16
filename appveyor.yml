@@ -6,7 +6,7 @@ before_build:
 
     dotnet restore --packages .\packages
 build:
-  verbosity: minimal
+  verbosity: detailed
 test_script:
 - cmd: .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"%ProgramFiles%\dotnet\dotnet.exe" -targetargs:test -filter:"+[Greety*]* -[Greety.Tests*]*" -output:coverage.xml -oldstyle
 after_test:
