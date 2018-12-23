@@ -6,9 +6,9 @@ before_build:
 
     nuget restore
 build:
-  verbosity: detailed
+  verbosity: normal
 test_script:
-- cmd: '%UserProfile%\.nuget\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"%ProgramFiles%\dotnet\dotnet.exe" -targetargs:test -filter:"+[Greety*]* -[Greety.Tests*]*" -output:coverage.xml -oldstyle'
+- cmd: '%UserProfile%\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe -register:user -target:"%ProgramFiles%\dotnet\dotnet.exe" -targetargs:test -filter:"+[Greety*]* -[Greety.Tests*]*" -output:coverage.xml -oldstyle'
 after_test:
 - ps: |
    $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
