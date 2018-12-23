@@ -3,4 +3,8 @@ greety shows how to apply some design considerations (guided by tests) to the cl
 
 [![Build status](https://ci.appveyor.com/api/projects/status/t2voqsupyds60wi7?svg=true)](https://ci.appveyor.com/project/paulroho/greety)
 
+
+[![codecov](https://codecov.io/gh/paulroho/greety/branch/master/graph/badge.svg)](https://codecov.io/gh/paulroho/greety)
+
+
 #workinprogress
