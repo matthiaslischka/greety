@@ -1,0 +1,16 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+before_build:
+- cmd: >-
+    dotnet add .\Greety package OpenCover
+
+    nuget restore
+build:
+  verbosity: normal
+test_script:
+- cmd: '%UserProfile%\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe -register:user -target:"%ProgramFiles%\dotnet\dotnet.exe" -targetargs:test -filter:"+[Greety*]* -[Greety.Tests*]*" -output:coverage.xml -oldstyle'
+after_test:
+- ps: |
+   $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
+   Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
+   bash codecov.sh -f "coverage.xml" -t 62338126-4e68-400e-860b-1d09741e6aa5
