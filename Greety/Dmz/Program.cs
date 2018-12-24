@@ -7,7 +7,8 @@ namespace Greety.Dmz
     {
         public static void Main()
         {
-            var greeter = new Greeter(OutputAction, InputAction);
+            var inputOutput = new InputOutput(InputAction, OutputAction);
+            var greeter = new Greeter(inputOutput);
 
             var name = greeter.AskForName();
             greeter.Greet(name);

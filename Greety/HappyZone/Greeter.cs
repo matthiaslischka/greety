@@ -7,10 +7,10 @@ namespace Greety.HappyZone
         private readonly Action<string> _output;
         private readonly Func<string> _input;
 
-        public Greeter(Action<string> outputAction, Func<string> inputAction)
+        public Greeter(InputOutput inputOutput)
         {
-            _output = outputAction;
-            _input = inputAction;
+            _output = inputOutput.OutputAction;
+            _input = inputOutput.InputAction;
         }
 
         public void Greet(string name)
