@@ -2,7 +2,7 @@
 
 namespace Greety.HappyZone
 {
-    public class InputOutput
+    public class InputOutput : IInputOutput
     {
         public InputOutput(Func<string> inputAction, Action<string> outputAction)
         {
