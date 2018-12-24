@@ -1,10 +1,11 @@
 ﻿using System;
+using Greety.HappyZone;
 
-namespace Greety.HappyZone
+namespace Greety.Tests.HappyZone
 {
-    public class InputOutput : IInputOutput
+    internal class GenericInputOutput : IInputOutput
     {
-        public InputOutput(Func<string> inputAction, Action<string> outputAction)
+        public GenericInputOutput(Func<string> inputAction, Action<string> outputAction)
         {
             ReadFromInput = inputAction;
             WriteToOutput = outputAction;

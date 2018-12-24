@@ -45,7 +45,7 @@ namespace Greety.Tests.HappyZone
 
         private Greeter CreateGreeter()
         {
-            var inOut = new InputOutput(() => _input, msg => _output = msg);
+            var inOut = new GenericInputOutput(() => _input, msg => _output = msg);
             return new Greeter(inOut);
         }
     }
