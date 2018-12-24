@@ -12,7 +12,7 @@ namespace Greety.Dmz
             greeter.Greet(name, OutputAction);
         }
 
-        private static Func<string> InputAction => Console.ReadLine;
+        public static Func<string> InputAction => Console.ReadLine;
 
         public static Action<string> OutputAction => Console.WriteLine;
     }
