@@ -6,11 +6,11 @@ namespace Greety.HappyZone
     {
         public InputOutput(Func<string> inputAction, Action<string> outputAction)
         {
-            InputAction = inputAction;
-            OutputAction = outputAction;
+            ReadFromInput = inputAction;
+            WriteToOutput = outputAction;
         }
 
-        public Func<string> InputAction { get; }
-        public Action<string> OutputAction { get; }
+        public Func<string> ReadFromInput { get; }
+        public Action<string> WriteToOutput { get; }
     }
 }
