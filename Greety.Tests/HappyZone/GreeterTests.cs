@@ -25,9 +25,22 @@ namespace Greety.Tests.HappyZone
             var greeter = new Greeter();
 
             // Act
-            greeter.AskForName(msg => output = msg);
+            greeter.AskForName(msg => output = msg, () => "");
 
             output.Should().Be("What's your name? ");
+        }
+
+        [Fact]
+        public void AskForName_ReturnsTheInputText()
+        {
+            string input = "Susi";
+            string output = null;
+            var greeter = new Greeter();
+
+            // Act
+            var name = greeter.AskForName(msg => output = msg, () => input);
+
+            name.Should().Be("Susi");
         }
     }
 }
