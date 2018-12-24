@@ -6,7 +6,7 @@ namespace Greety.HappyZone
     {
         public void Greet(string name, Action<string> output)
         {
-            output("Hello World!");
+            output($"Hello World, {name}!");
         }
 
         public string AskForName()

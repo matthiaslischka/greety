@@ -13,9 +13,9 @@ namespace Greety.Tests.HappyZone
             var greeter = new Greeter();
 
             // Act
-            greeter.Greet(null, msg => output = msg);
+            greeter.Greet("Susi", msg => output = msg);
 
-            output.Should().Be("Hello World!");
+            output.Should().Be("Hello World, Susi!");
         }
     }
 }
