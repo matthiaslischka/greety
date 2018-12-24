@@ -16,7 +16,7 @@ namespace Greety.Tests.DMZ
             Console.SetOut(stringWriter);
 
             // Act
-            Program.OutputAction("The message");
+            Program._consoleInOut.WriteToOutput("The message");
 
             var output = stringWriter.ToString();
             output.Should().StartWith("The message");
@@ -29,7 +29,7 @@ namespace Greety.Tests.DMZ
             Console.SetIn(stringReader);
 
             // Act
-            var input = Program.InputAction();
+            var input = Program._consoleInOut.ReadFromInput();
 
             input.Should().StartWith("The input");
         }
