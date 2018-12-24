@@ -15,10 +15,10 @@ namespace Greety.HappyZone
 
         public void Greet(string name)
         {
-            if (!_wellKnownNames.Contains(name))
-                _inOut.WriteToOutput("I don't know you, stranger.");
-            else
-                _inOut.WriteToOutput($"Hello World, {name}!");
+            var message = _wellKnownNames.Contains(name)
+                ? $"Hello World, {name}!"
+                : "I don't know you, stranger.";
+            _inOut.WriteToOutput(message);
         }
 
         public string AskForName()
