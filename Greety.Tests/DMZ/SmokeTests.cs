@@ -13,13 +13,15 @@ namespace Greety.Tests.DMZ
         public void GreetsToTheConsole()
         {
             var stringWriter = new StringWriter();
+            var stringReader = new StringReader("Paul");
+            Console.SetIn(stringReader);
             Console.SetOut(stringWriter);
 
             // Act
             Program.Main();
 
             var output = stringWriter.ToString();
-            output.Should().NotBeEmpty();
+            output.Should().Contain("Paul");
         }
     }
 }
