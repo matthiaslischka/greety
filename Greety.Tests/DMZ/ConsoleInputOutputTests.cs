@@ -7,7 +7,7 @@ using Xunit;
 namespace Greety.Tests.DMZ
 {
     [Collection("Tests depending on System.Console")]
-    public class InputOutputActionTests
+    public class ConsoleInputOutputTests
     {
         [Fact]
         public void CallingTheOutputAction_WritesTheParameterToConsoleOut()
@@ -15,8 +15,10 @@ namespace Greety.Tests.DMZ
             var stringWriter = new StringWriter();
             Console.SetOut(stringWriter);
 
+            var consoleInOut = new ConsoleInputOutput();
+
             // Act
-            Program.OutputAction("The message");
+            consoleInOut.WriteToOutput("The message");
 
             var output = stringWriter.ToString();
             output.Should().StartWith("The message");
@@ -28,8 +30,10 @@ namespace Greety.Tests.DMZ
             var stringReader = new StringReader("The input");
             Console.SetIn(stringReader);
 
+            var consoleInOut = new ConsoleInputOutput();
+
             // Act
-            var input = Program.InputAction();
+            var input = consoleInOut.ReadFromInput();
 
             input.Should().StartWith("The input");
         }

@@ -6,41 +6,47 @@ namespace Greety.Tests.HappyZone
 {
     public class GreeterTests
     {
+        private string _input;
+        private string _output;
+
         [Fact]
         public void Greet_GreetsWithTheProperText()
         {
-            string output = null;
-            var greeter = new Greeter();
+            var greeter = CreateGreeter();
 
             // Act
-            greeter.Greet("Susi", msg => output = msg);
+            greeter.Greet("Susi");
 
-            output.Should().Be("Hello World, Susi!");
+            _output.Should().Be("Hello World, Susi!");
         }
 
         [Fact]
         public void AskForName_PromptsForTheName()
         {
-            string output = null;
-            var greeter = new Greeter();
+            var greeter = CreateGreeter();
 
             // Act
-            greeter.AskForName(msg => output = msg, () => "");
+            greeter.AskForName();
 
-            output.Should().Be("What's your name? ");
+            _output.Should().Be("What's your name? ");
         }
 
         [Fact]
         public void AskForName_ReturnsTheInputText()
         {
-            string input = "Susi";
-            string output = null;
-            var greeter = new Greeter();
+            _input = "Susi";
+            var greeter = CreateGreeter();
 
             // Act
-            var name = greeter.AskForName(msg => output = msg, () => input);
+            var name = greeter.AskForName();
 
             name.Should().Be("Susi");
+        }
+
+        private Greeter CreateGreeter()
+        {
+            var inOut = new GenericInputOutput(() => _input, msg => _output = msg);
+            return new Greeter(inOut);
         }
     }
 }

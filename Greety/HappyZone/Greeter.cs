@@ -1,18 +1,23 @@
-﻿using System;
-
-namespace Greety.HappyZone
+﻿namespace Greety.HappyZone
 {
     public class Greeter
     {
-        public void Greet(string name, Action<string> output)
+        private readonly IInputOutput _inOut;
+
+        public Greeter(IInputOutput inOut)
         {
-            output($"Hello World, {name}!");
+            _inOut = inOut;
         }
 
-        public string AskForName(Action<string> output, Func<string> input)
+        public void Greet(string name)
         {
-            output("What's your name? ");
-            return input();
+            _inOut.WriteToOutput($"Hello World, {name}!");
+        }
+
+        public string AskForName()
+        {
+            _inOut.WriteToOutput("What's your name? ");
+            return _inOut.ReadFromInput();
         }
     }
 }
