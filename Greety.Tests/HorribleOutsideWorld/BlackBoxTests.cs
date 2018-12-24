@@ -16,8 +16,9 @@ namespace Greety.Tests.HorribleOutsideWorld
             // Act
             process.Start();
 
+            process.StandardInput.WriteLine("Paul");
             var output = process.StandardOutput.ReadToEnd();
-            output.Should().Be("Hello World!\r\n");
+            output.Should().Be("What's your name? \r\nHello World, Paul!\r\n");
         }
 
         private Process PrepareGreetyProcess()
@@ -29,7 +30,8 @@ namespace Greety.Tests.HorribleOutsideWorld
             {
                 StartInfo = new ProcessStartInfo(commandLine)
                 {
-                    RedirectStandardOutput = true
+                    RedirectStandardOutput = true,
+                    RedirectStandardInput = true,
                 }
             };
             return process;
