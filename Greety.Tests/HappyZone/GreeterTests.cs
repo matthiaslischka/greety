@@ -10,14 +10,25 @@ namespace Greety.Tests.HappyZone
         private string _output;
 
         [Fact]
-        public void Greet_GreetsWithTheProperText()
+        public void Greet_WithANameContainedInTheListOfWellKnownNames_GreetsFriendly()
         {
-            var greeter = CreateGreeter();
+            var greeter = CreateGreeter(wellknownNames: new[] { "Susi" });
 
             // Act
             greeter.Greet("Susi");
 
             _output.Should().Be("Hello World, Susi!");
+        }
+
+        [Fact]
+        public void Greet_WithAnEmptyListOfWellKnownNames_GreetsUnfriendly()
+        {
+            var greeter = CreateGreeter();
+
+            // Act
+            greeter.Greet("Some other name");
+
+            _output.Should().Be("I don't know you, stranger.");
         }
 
         [Fact]
@@ -45,8 +56,13 @@ namespace Greety.Tests.HappyZone
 
         private Greeter CreateGreeter()
         {
+            return CreateGreeter(new string[] { });
+        }
+
+        private Greeter CreateGreeter(string[] wellknownNames)
+        {
             var inOut = new GenericInputOutput(() => _input, msg => _output = msg);
-            return new Greeter(inOut);
+            return new Greeter(inOut, wellknownNames);
         }
     }
 }
