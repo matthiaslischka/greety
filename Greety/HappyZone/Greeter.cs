@@ -4,15 +4,24 @@ namespace Greety.HappyZone
 {
     public class Greeter
     {
-        public void Greet(string name, Action<string> output)
+        private readonly Action<string> _output;
+        private readonly Func<string> _input;
+
+        public Greeter(Action<string> outputAction, Func<string> inputAction)
         {
-            output($"Hello World, {name}!");
+            _output = outputAction;
+            _input = inputAction;
         }
 
-        public string AskForName(Action<string> output, Func<string> input)
+        public void Greet(string name)
         {
-            output("What's your name? ");
-            return input();
+            _output($"Hello World, {name}!");
+        }
+
+        public string AskForName()
+        {
+            _output("What's your name? ");
+            return _input();
         }
     }
 }

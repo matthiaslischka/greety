@@ -10,10 +10,10 @@ namespace Greety.Tests.HappyZone
         public void Greet_GreetsWithTheProperText()
         {
             string output = null;
-            var greeter = new Greeter();
+            var greeter = new Greeter(msg => output = msg, () => "");
 
             // Act
-            greeter.Greet("Susi", msg => output = msg);
+            greeter.Greet("Susi");
 
             output.Should().Be("Hello World, Susi!");
         }
@@ -22,10 +22,10 @@ namespace Greety.Tests.HappyZone
         public void AskForName_PromptsForTheName()
         {
             string output = null;
-            var greeter = new Greeter();
+            var greeter = new Greeter(msg => output = msg, () => "");
 
             // Act
-            greeter.AskForName(msg => output = msg, () => "");
+            greeter.AskForName();
 
             output.Should().Be("What's your name? ");
         }
@@ -34,11 +34,10 @@ namespace Greety.Tests.HappyZone
         public void AskForName_ReturnsTheInputText()
         {
             string input = "Susi";
-            string output = null;
-            var greeter = new Greeter();
+            var greeter = new Greeter(msg => { }, () => input);
 
             // Act
-            var name = greeter.AskForName(msg => output = msg, () => input);
+            var name = greeter.AskForName();
 
             name.Should().Be("Susi");
         }
