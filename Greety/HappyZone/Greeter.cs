@@ -9,9 +9,10 @@ namespace Greety.HappyZone
             output($"Hello World, {name}!");
         }
 
-        public string AskForName()
+        public string AskForName(Action<string> output)
         {
-            throw new NotImplementedException();
+            output("What's your name? ");
+            return null;
         }
     }
 }
