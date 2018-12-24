@@ -21,7 +21,7 @@ namespace Greety.Tests.DMZ
             consoleInOut.WriteToOutput("The message");
 
             var output = stringWriter.ToString();
-            output.Should().StartWith("The message");
+            output.Should().Be("The message\r\n");
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace Greety.Tests.DMZ
             // Act
             var input = consoleInOut.ReadFromInput();
 
-            input.Should().StartWith("The input");
+            input.Should().Be("The input");
         }
     }
 }
