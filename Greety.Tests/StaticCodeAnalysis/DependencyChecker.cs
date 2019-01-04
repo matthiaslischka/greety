@@ -22,30 +22,16 @@ namespace Greety.Tests.StaticCodeAnalysis
         [ClassData(typeof(HappyZoneTypesProvider))]
         public void CheckType(TypeInfo typeInHappyZone)
         {
+            ConstructorDependencyChecker _constructorDependencyChecker;
+
             var errors = new List<DependencyError>();
 
-            CheckConstructorParameters(errors, typeInHappyZone);
+            _constructorDependencyChecker = new ConstructorDependencyChecker(errors);
+            _constructorDependencyChecker.Check(typeInHappyZone);
 
             Dump(errors);
 
             errors.Should().BeEmpty();
-        }
-
-        private static void CheckConstructorParameters(ICollection<DependencyError> errors, TypeInfo typeInHappyZone)
-        {
-            foreach (var constructorInfo in typeInHappyZone.DeclaredConstructors)
-            {
-                foreach (var parameterInfo in constructorInfo.GetParameters())
-                {
-                    var dependingNamespace = parameterInfo.ParameterType.Namespace;
-                    if (!dependingNamespace.StartsWith("System") &&
-                        !dependingNamespace.StartsWith(HappyZoneTypesProvider.HappyZoneNamespace))
-                    {
-                        errors.Add(new DependencyError("Constructor", typeInHappyZone.FullName, parameterInfo.Name,
-                            parameterInfo.ParameterType.FullName));
-                    }
-                }
-            }
         }
 
         private void Dump(IEnumerable<DependencyError> errors)
