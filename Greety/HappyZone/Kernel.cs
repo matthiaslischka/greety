@@ -11,7 +11,8 @@
 
         public void Run()
         {
-            var greeter = new Greeter(_inOut, new[] { "Paul" });
+            var nameValidator = new LiteralNameValidator("Paul");
+            var greeter = new Greeter(_inOut, nameValidator);
 
             var name = greeter.AskForName();
             greeter.Greet(name);

@@ -12,7 +12,7 @@ namespace Greety.Tests.HappyZone
         [Fact]
         public void Greet_WithANameContainedInTheListOfWellKnownNames_GreetsFriendly()
         {
-            var greeter = CreateGreeter(wellknownNames: new[] { "Susi" });
+            var greeter = CreateGreeter(nameValidator:new LiteralNameValidator("Susi"));
 
             // Act
             greeter.Greet("Susi");
@@ -56,13 +56,13 @@ namespace Greety.Tests.HappyZone
 
         private Greeter CreateGreeter()
         {
-            return CreateGreeter(new string[] { });
+            return CreateGreeter(new LiteralNameValidator());
         }
 
-        private Greeter CreateGreeter(string[] wellknownNames)
+        private Greeter CreateGreeter(INameValidator nameValidator)
         {
             var inOut = new GenericInputOutput(() => _input, msg => _output = msg);
-            return new Greeter(inOut, wellknownNames);
+            return new Greeter(inOut, nameValidator);
         }
     }
 }
