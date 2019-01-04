@@ -4,7 +4,7 @@ namespace Greety.HappyZone
 {
     public interface IInputOutput
     {
-        Func<string> ReadFromInput { get; }
+        string ReadFromInput();
         Action<string> WriteToOutput { get; }
     }
 }

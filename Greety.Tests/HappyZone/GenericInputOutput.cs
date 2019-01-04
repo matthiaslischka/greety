@@ -5,13 +5,15 @@ namespace Greety.Tests.HappyZone
 {
     internal class GenericInputOutput : IInputOutput
     {
+        private readonly Func<string> _readFromInputAction;
+
         public GenericInputOutput(Func<string> inputAction, Action<string> outputAction)
         {
-            ReadFromInput = inputAction;
+            _readFromInputAction = inputAction;
             WriteToOutput = outputAction;
         }
 
-        public Func<string> ReadFromInput { get; }
+        public string ReadFromInput() => _readFromInputAction();
         public Action<string> WriteToOutput { get; }
     }
 }
