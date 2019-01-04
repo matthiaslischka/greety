@@ -23,7 +23,7 @@ namespace Greety.Tests.StaticCodeAnalysis
 
             var errors = new List<DependencyError>();
 
-            _constructorDependencyChecker = new ConstructorDependencyChecker(errors);
+            _constructorDependencyChecker = new ConstructorDependencyChecker(errors, HappyZoneTypesProvider.HappyZoneNamespace);
             _constructorDependencyChecker.Check(typeInHappyZone);
 
             Dump(errors);
