@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace Greety.HappyZone
+﻿namespace Greety.HappyZone
 {
     public interface IInputOutput
     {
         string ReadFromInput();
-        Action<string> WriteToOutput { get; }
+        void WriteToOutput(string message);
     }
 }

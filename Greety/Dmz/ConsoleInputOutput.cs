@@ -7,6 +7,6 @@ namespace Greety.Dmz
     {
         public string ReadFromInput() => Console.ReadLine();
 
-        public Action<string> WriteToOutput { get; } = Console.WriteLine;
+        public void WriteToOutput(string message) => Console.WriteLine(message);
     }
 }
