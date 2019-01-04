@@ -20,11 +20,11 @@ namespace Greety.Tests.StaticCodeAnalysis
         public void CheckType(TypeInfo typeInHappyZone)
         {
             var dependencyChecker = new DependencyChecker(HappyZoneTypesProvider.HappyZoneNamespace);
-            dependencyChecker.Check(typeInHappyZone);
+            var errors = dependencyChecker.Check(typeInHappyZone);
 
-            Dump(dependencyChecker.Errors);
+            Dump(errors);
 
-            dependencyChecker.Errors.Should().BeEmpty();
+            errors.Should().BeEmpty();
         }
 
         private void Dump(IEnumerable<DependencyError> errors)

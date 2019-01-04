@@ -5,17 +5,17 @@ namespace Greety.Tests.StaticCodeAnalysis
 {
     public class ConstructorDependencyChecker
     {
-        private readonly List<DependencyError> _errors;
         private readonly string _happyZoneNamespace;
 
-        public ConstructorDependencyChecker(List<DependencyError> errors, string happyZoneNamespace)
+        public ConstructorDependencyChecker(string happyZoneNamespace)
         {
-            _errors = errors;
             _happyZoneNamespace = happyZoneNamespace;
         }
 
-        public void Check(TypeInfo typeInHappyZone)
+        public List<DependencyError> Check(TypeInfo typeInHappyZone)
         {
+            var errors = new List<DependencyError>();
+
             foreach (var constructorInfo in typeInHappyZone.DeclaredConstructors)
             {
                 foreach (var parameterInfo in constructorInfo.GetParameters())
@@ -24,11 +24,13 @@ namespace Greety.Tests.StaticCodeAnalysis
                     if (!dependingNamespace.StartsWith("System") &&
                         !dependingNamespace.StartsWith(_happyZoneNamespace))
                     {
-                        _errors.Add(new DependencyError("Constructor", typeInHappyZone.FullName, parameterInfo.Name,
+                        errors.Add(new DependencyError("Constructor", typeInHappyZone.FullName, parameterInfo.Name,
                             parameterInfo.ParameterType.FullName));
                     }
                 }
             }
+
+            return errors;
         }
     }
 }
