@@ -12,7 +12,7 @@ namespace Greety.Tests.StaticCodeAnalysis
             _happyZoneNamespace = happyZoneNamespace;
         }
 
-        public List<DependencyError> Check(TypeInfo typeInHappyZone)
+        public IEnumerable<DependencyError> Check(TypeInfo typeInHappyZone)
         {
             var errors = new List<DependencyError>();
 

@@ -31,7 +31,7 @@ namespace Greety.Tests.StaticCodeAnalysis
         {
             foreach (var error in errors)
             {
-                _testOutput.WriteLine($"{error.HappyZoneTypeName} references {error.NonHappyZoneTypeName} in parameter {error.ParameterName}.");
+                _testOutput.WriteLine($"{error.HappyZoneTypeName} references {error.NonHappyZoneTypeName} in {error.DependencyType} {error.ParameterName}.");
             }
         }
     }
