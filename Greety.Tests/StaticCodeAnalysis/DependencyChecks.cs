@@ -9,11 +9,11 @@ using Xunit.Abstractions;
 
 namespace Greety.Tests.StaticCodeAnalysis
 {
-    public class DependencyChecker
+    public class DependencyChecks
     {
         private readonly ITestOutputHelper _testOutput;
 
-        public DependencyChecker(ITestOutputHelper testOutput)
+        public DependencyChecks(ITestOutputHelper testOutput)
         {
             _testOutput = testOutput;
         }
