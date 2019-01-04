@@ -7,10 +7,9 @@ namespace Greety.Dmz
         public static void Main()
         {
             var consoleInOut = new ConsoleInputOutput();
-            var greeter = new Greeter(consoleInOut, new[]{"Paul"});
 
-            var name = greeter.AskForName();
-            greeter.Greet(name);
+            var kernel = new Kernel(consoleInOut);
+            kernel.Run();
         }
     }
 }
