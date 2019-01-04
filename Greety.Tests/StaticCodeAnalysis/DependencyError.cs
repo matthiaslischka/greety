@@ -4,14 +4,14 @@
     {
         public string DependencyType { get; }
         public string HappyZoneTypeName { get; }
-        public string ParameterName { get; }
+        public string ElementName { get; }
         public string NonHappyZoneTypeName { get; }
 
-        public DependencyError(string dependencyType, string happyZoneTypeName, string parameterName, string nonHappyZoneTypeName)
+        public DependencyError(string dependencyType, string happyZoneTypeName, string elementName, string nonHappyZoneTypeName)
         {
             DependencyType = dependencyType;
             HappyZoneTypeName = happyZoneTypeName;
-            ParameterName = parameterName;
+            ElementName = elementName;
             NonHappyZoneTypeName = nonHappyZoneTypeName;
         }
     }

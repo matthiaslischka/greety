@@ -24,7 +24,7 @@ namespace Greety.Tests.StaticCodeAnalysis
                     if (!dependingNamespace.StartsWith("System") &&
                         !dependingNamespace.StartsWith(_happyZoneNamespace))
                     {
-                        errors.Add(new DependencyError("Constructor", typeInHappyZone.FullName, parameterInfo.Name,
+                        errors.Add(new DependencyError("constructor parameter", typeInHappyZone.FullName, parameterInfo.Name,
                             parameterInfo.ParameterType.FullName));
                     }
                 }

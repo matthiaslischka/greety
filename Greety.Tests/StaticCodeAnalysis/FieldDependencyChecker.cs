@@ -22,7 +22,7 @@ namespace Greety.Tests.StaticCodeAnalysis
                 if (!dependingNamespace.StartsWith("System") &&
                     !dependingNamespace.StartsWith(_happyZoneNamespace))
                 {
-                    errors.Add(new DependencyError("Field", typeInHappyZone.FullName, fieldInfo.Name,
+                    errors.Add(new DependencyError("field", typeInHappyZone.FullName, fieldInfo.Name,
                         fieldInfo.FieldType.FullName));
                 }
             }
