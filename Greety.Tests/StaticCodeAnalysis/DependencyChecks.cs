@@ -19,16 +19,12 @@ namespace Greety.Tests.StaticCodeAnalysis
         [ClassData(typeof(HappyZoneTypesProvider))]
         public void CheckType(TypeInfo typeInHappyZone)
         {
-            ConstructorDependencyChecker _constructorDependencyChecker;
+            var dependencyChecker = new DependencyChecker(HappyZoneTypesProvider.HappyZoneNamespace);
+            dependencyChecker.Check(typeInHappyZone);
 
-            var errors = new List<DependencyError>();
+            Dump(dependencyChecker.Errors);
 
-            _constructorDependencyChecker = new ConstructorDependencyChecker(errors, HappyZoneTypesProvider.HappyZoneNamespace);
-            _constructorDependencyChecker.Check(typeInHappyZone);
-
-            Dump(errors);
-
-            errors.Should().BeEmpty();
+            dependencyChecker.Errors.Should().BeEmpty();
         }
 
         private void Dump(IEnumerable<DependencyError> errors)
