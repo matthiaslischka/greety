@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using FluentAssertions;
 using Sample.Nice;
@@ -23,6 +24,13 @@ namespace DepChecker.Tests
             errors.Should().Contain(FieldDependencyError("_uglyField", "UglyType"));
         }
 
+        [Fact]
+        public void ShouldReportAParameterFromOutsideTheHappyZoneUsedInAGenericType()
+        {
+            var errors = _checker.Check<ClassWithFieldUsingAnUglyTypeInAGeneric>();
+            errors.Should().Contain(FieldDependencyError("_indirectUglyField", "UglyType"));
+        }
+
         private Expression<Func<IDependencyError, bool>> FieldDependencyError(string uglyFieldName, string uglyTypeName)
         {
             return err => err is FieldDependencyChecker.FieldDependencyError &&
@@ -36,10 +44,18 @@ namespace Sample
 {
     namespace Nice
     {
-        // ReSharper disable once ClassNeverInstantiated.Global
+        // ReSharper disable ClassNeverInstantiated.Global
+#pragma warning disable 169
         class ClassWithUglyField
         {
             private UglyType _uglyField;
         }
+
+        class ClassWithFieldUsingAnUglyTypeInAGeneric
+        {
+            private IEnumerable<UglyType> _indirectUglyField;
+        }
+#pragma warning restore 169
+        // ReSharper enable ClassNeverInstantiated.Global
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace DepChecker
 {
@@ -19,16 +20,36 @@ namespace DepChecker
             {
                 foreach (var parameterInfo in constructorInfo.GetParameters())
                 {
-                    var dependingNamespace = parameterInfo.ParameterType.Namespace;
-                    if (!dependingNamespace.StartsWith("System") &&
-                        !dependingNamespace.StartsWith(_happyZoneNamespace))
+                    if (parameterInfo.ParameterType.IsGenericType)
                     {
-                        errors.Add(new ConstructorParameterDependencyError(typeInHappyZone.FullName, parameterInfo.Name, parameterInfo.ParameterType.FullName));
+                        CheckGenericType(parameterInfo.ParameterType, typeInHappyZone, parameterInfo, errors);
+                    }
+                    else
+                    {
+                        CheckNonGenericType(parameterInfo.ParameterType, typeInHappyZone, parameterInfo, errors);
                     }
                 }
             }
 
             return errors;
+        }
+
+        private void CheckGenericType(Type typeToCheck, TypeInfo typeInHappyZone, ParameterInfo parameterInfo, DependencyErrors errors)
+        {
+            foreach (var type in typeToCheck.GenericTypeArguments)
+            {
+                CheckNonGenericType(type, typeInHappyZone, parameterInfo, errors);
+            }
+        }
+
+        private void CheckNonGenericType(Type typeToCheck, TypeInfo typeInHappyZone, ParameterInfo parameterInfo, DependencyErrors errors)
+        {
+            var dependingNamespace = typeToCheck.Namespace;
+            if (!dependingNamespace.StartsWith("System") &&
+                !dependingNamespace.StartsWith(_happyZoneNamespace))
+            {
+                errors.Add(new ConstructorParameterDependencyError(typeInHappyZone.FullName, parameterInfo.Name, typeToCheck.FullName));
+            }
         }
 
         public class ConstructorParameterDependencyError : DependencyErrorBase
