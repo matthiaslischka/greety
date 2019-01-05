@@ -2,7 +2,7 @@
 
 namespace DepChecker
 {
-    internal class FieldDependencyChecker
+    public class FieldDependencyChecker
     {
         private readonly string _happyZoneNamespace;
 
@@ -28,7 +28,7 @@ namespace DepChecker
             return errors;
         }
 
-        private class FieldDependencyError : DependencyErrorBase
+        public class FieldDependencyError : DependencyErrorBase
         {
             public FieldDependencyError(string happyZoneTypeName, string fieldName, string nonHappyZoneTypeName)
                 : base(happyZoneTypeName, fieldName, nonHappyZoneTypeName)
