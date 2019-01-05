@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace DepChecker
 {
@@ -23,14 +22,9 @@ namespace DepChecker
             return ((IEnumerable) _errors).GetEnumerator();
         }
 
-        public void AddConstructorParameterError(TypeInfo typeInHappyZone, ParameterInfo parameterInfo)
+        public void Add(IDependencyError error)
         {
-            _errors.Add(new ConstructorParameterDependencyError(typeInHappyZone.FullName, parameterInfo.Name, parameterInfo.ParameterType.FullName));
-        }
-
-        public void AddFieldDependencyError(TypeInfo typeInHappyZone, FieldInfo fieldInfo)
-        {
-            _errors.Add(new FieldDependencyError(typeInHappyZone.FullName, fieldInfo.Name, fieldInfo.FieldType.FullName));
+            _errors.Add(error);
         }
 
         public void Append(DependencyErrors errors)

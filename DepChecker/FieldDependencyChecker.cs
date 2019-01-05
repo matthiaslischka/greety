@@ -21,11 +21,21 @@ namespace DepChecker
                 if (!dependingNamespace.StartsWith("System") &&
                     !dependingNamespace.StartsWith(_happyZoneNamespace))
                 {
-                    errors.AddFieldDependencyError(typeInHappyZone, fieldInfo);
+                    errors.Add(new FieldDependencyError(typeInHappyZone.FullName, fieldInfo.Name, fieldInfo.FieldType.FullName));
                 }
             }
 
             return errors;
+        }
+
+        private class FieldDependencyError : DependencyErrorBase
+        {
+            public FieldDependencyError(string happyZoneTypeName, string elementName, string nonHappyZoneTypeName)
+                : base(happyZoneTypeName, elementName, nonHappyZoneTypeName)
+            {
+            }
+
+            public override string DependencyType { get; } = "field";
         }
     }
 }

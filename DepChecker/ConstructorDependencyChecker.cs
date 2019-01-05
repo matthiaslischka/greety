@@ -23,12 +23,22 @@ namespace DepChecker
                     if (!dependingNamespace.StartsWith("System") &&
                         !dependingNamespace.StartsWith(_happyZoneNamespace))
                     {
-                        errors.AddConstructorParameterError(typeInHappyZone, parameterInfo);
+                        errors.Add(new ConstructorParameterDependencyError(typeInHappyZone.FullName, parameterInfo.Name, parameterInfo.ParameterType.FullName));
                     }
                 }
             }
 
             return errors;
+        }
+
+        private class ConstructorParameterDependencyError : DependencyErrorBase
+        {
+            public ConstructorParameterDependencyError(string happyZoneTypeName, string elementName, string nonHappyZoneTypeName)
+                : base(happyZoneTypeName, elementName, nonHappyZoneTypeName)
+            {
+            }
+
+            public override string DependencyType { get; } = "constructor parameter";
         }
     }
 }
