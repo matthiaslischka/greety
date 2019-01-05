@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 
 namespace DepChecker
 {
@@ -13,19 +14,20 @@ namespace DepChecker
 
         public DependencyErrors Check(TypeInfo typeInHappyZone)
         {
-            var errors = new DependencyErrors();
+            return new DependencyErrors(CheckFields(typeInHappyZone));
+        }
 
+        private IEnumerable<FieldDependencyError> CheckFields(TypeInfo typeInHappyZone)
+        {
             foreach (var fieldInfo in typeInHappyZone.DeclaredFields)
             {
                 var uglyTypeNames = _typeChecker.CheckType(fieldInfo.FieldType);
 
                 foreach (var uglyTypeName in uglyTypeNames)
                 {
-                    errors.Append(new FieldDependencyError(typeInHappyZone.FullName, fieldInfo.Name, uglyTypeName));
+                    yield return new FieldDependencyError(typeInHappyZone.FullName, fieldInfo.Name, uglyTypeName);
                 }
             }
-
-            return errors;
         }
 
         public class FieldDependencyError : DependencyErrorBase

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 
 namespace DepChecker
 {
@@ -13,8 +14,11 @@ namespace DepChecker
 
         public DependencyErrors Check(TypeInfo typeInHappyZone)
         {
-            var errors = new DependencyErrors();
+            return new DependencyErrors(CheckConstructorParameters(typeInHappyZone));
+        }
 
+        private IEnumerable<ConstructorParameterDependencyError> CheckConstructorParameters(TypeInfo typeInHappyZone)
+        {
             foreach (var constructorInfo in typeInHappyZone.DeclaredConstructors)
             {
                 foreach (var parameterInfo in constructorInfo.GetParameters())
@@ -23,12 +27,10 @@ namespace DepChecker
 
                     foreach (var uglyTypeName in uglyTypeNames)
                     {
-                        errors.Append(new ConstructorParameterDependencyError(typeInHappyZone.FullName, parameterInfo.Name, uglyTypeName));
+                        yield return new ConstructorParameterDependencyError(typeInHappyZone.FullName, parameterInfo.Name, uglyTypeName);
                     }
                 }
             }
-
-            return errors;
         }
 
         public class ConstructorParameterDependencyError : DependencyErrorBase

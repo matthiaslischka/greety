@@ -12,6 +12,12 @@ namespace DepChecker
             _errors = new List<IDependencyError>();
         }
 
+        public DependencyErrors(IEnumerable<IDependencyError> errors)
+            : this()
+        {
+            Append(errors);
+        }
+
         public IEnumerator<IDependencyError> GetEnumerator()
         {
             return _errors.GetEnumerator();
@@ -27,9 +33,9 @@ namespace DepChecker
             _errors.AddRange(errors);
         }
 
-        public void Append(IDependencyError error)
+        private void Append(IEnumerable<IDependencyError> errors)
         {
-            _errors.Add(error);
+            _errors.AddRange(errors);
         }
     }
 }
