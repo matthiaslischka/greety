@@ -1,3 +1,5 @@
+using System;
+using System.Linq.Expressions;
 using FluentAssertions;
 using Sample.Nice;
 using Sample.Ugly;
@@ -18,10 +20,14 @@ namespace DepChecker.Tests
         public void ShouldReportAParameterFromOutsideTheHappyZone()
         {
             var errors = _checker.Check<ClassWithUglyConstructorParameter>();
-            errors.Should().Contain(err => err.HappyZoneTypeName.StartsWith("Sample.Nice") &&
-                                           err.DependencyType == "constructor parameter" &&
-                                           err.ElementName == "uglyParameter" &&
-                                           err.NonHappyZoneTypeName.EndsWith("UglyType"));
+            errors.Should().Contain(ConstructorDependencyError("uglyParameter", "UglyType"));
+        }
+
+        private Expression<Func<IDependencyError, bool>> ConstructorDependencyError(string uglyParameterName, string uglyTypeName)
+        {
+            return err => err is ConstructorDependencyChecker.ConstructorParameterDependencyError &&
+                          err.ElementName == uglyParameterName &&
+                          err.NonHappyZoneTypeName.EndsWith(uglyTypeName);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace DepChecker
             return errors;
         }
 
-        private class ConstructorParameterDependencyError : DependencyErrorBase
+        public class ConstructorParameterDependencyError : DependencyErrorBase
         {
             public ConstructorParameterDependencyError(string happyZoneTypeName, string parameterName, string nonHappyZoneTypeName)
                 : base(happyZoneTypeName, parameterName, nonHappyZoneTypeName)

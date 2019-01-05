@@ -8,7 +8,7 @@
         string NonHappyZoneTypeName { get; }
     }
 
-    internal abstract class DependencyErrorBase : IDependencyError
+    public abstract class DependencyErrorBase : IDependencyError
     {
         public abstract string DependencyType { get; }
         public string HappyZoneTypeName { get; }
