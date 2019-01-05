@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace DepChecker
 {
-    public class ConstructorDependencyChecker
+    public class ConstructorDependencyChecker : IDependencyChecker
     {
         private readonly INamespaceChecker _namespaceChecker;
 
@@ -13,7 +13,7 @@ namespace DepChecker
             _namespaceChecker = namespaceChecker;
         }
 
-        public IReadOnlyCollection<ConstructorParameterDependencyError> Check(TypeInfo typeInHappyZone)
+        public IReadOnlyCollection<IDependencyError> Check(TypeInfo typeInHappyZone)
         {
             return CheckLazy(typeInHappyZone).ToList();
         }
@@ -34,7 +34,7 @@ namespace DepChecker
             }
         }
 
-        public class ConstructorParameterDependencyError : DependencyErrorBase
+        private class ConstructorParameterDependencyError : DependencyErrorBase
         {
             public ConstructorParameterDependencyError(string happyZoneTypeName, string parameterName, string nonHappyZoneTypeName)
                 : base(happyZoneTypeName, parameterName, nonHappyZoneTypeName)
