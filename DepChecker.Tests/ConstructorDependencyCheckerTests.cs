@@ -23,14 +23,14 @@ namespace DepChecker.Tests
         {
             _checker.Check(typeof(ClassWithSeveralConstructors).GetTypeInfo());
 
-            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeType)), Times.Exactly(2));
-            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeOtherType)), Times.Once);
+            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(SampleTypes.SomeType)), Times.Exactly(2));
+            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(SampleTypes.SomeOtherType)), Times.Once);
         }
 
         [Fact]
         public void ShouldReturnFoundTypesAsDependencyErrors()
         {
-            _namespaceCheckerMock.Setup(nc => nc.CheckType(typeof(Sample.Ugly.UglyType))).Returns(new[] { "Sample.Ugly.UglyType" });
+            _namespaceCheckerMock.Setup(nc => nc.CheckType(typeof(SampleTypes.Ugly.UglyType))).Returns(new[] { "Sample.Ugly.UglyType" });
 
             var errors = _checker.Check(typeof(ClassWithSeveralConstructors).GetTypeInfo());
 
@@ -48,9 +48,9 @@ namespace DepChecker.Tests
         {
             // ReSharper disable UnusedParameter.Local
             // ReSharper disable UnusedMember.Local
-            public ClassWithSeveralConstructors(Sample.SomeType someParameter) { }
-            public ClassWithSeveralConstructors(Sample.Ugly.UglyType someUglyParameter) { }
-            public ClassWithSeveralConstructors(Sample.SomeType someParameter, Sample.SomeOtherType someOtherParameter) { }
+            public ClassWithSeveralConstructors(SampleTypes.SomeType someParameter) { }
+            public ClassWithSeveralConstructors(SampleTypes.Ugly.UglyType someUglyParameter) { }
+            public ClassWithSeveralConstructors(SampleTypes.SomeType someParameter, SampleTypes.SomeOtherType someOtherParameter) { }
             // ReSharper restore UnusedMember.Local
             // ReSharper restore UnusedParameter.Local
         }

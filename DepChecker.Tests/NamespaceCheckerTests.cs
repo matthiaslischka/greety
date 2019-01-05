@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using Sample.Ugly;
 using Xunit;
 
 namespace DepChecker.Tests
@@ -25,36 +24,30 @@ namespace DepChecker.Tests
         [Fact]
         public void ShouldNotFindTypesInLegalNamespace()
         {
-            _checker.AddLegalNamespace("Sample.Legal");
-            var uglyTypeNames = _checker.CheckType(typeof(Sample.Legal.LegalClass));
+            _checker.AddLegalNamespace("SampleTypes.Legal");
+            var uglyTypeNames = _checker.CheckType(typeof(SampleTypes.Legal.LegalType));
             uglyTypeNames.Should().BeEmpty();
         }
 
         [Fact]
         public void ShouldFindATypeFromOutsideTheHappyZone()
         {
-            var uglyTypeNames = _checker.CheckType(typeof(UglyType));
+            var uglyTypeNames = _checker.CheckType(typeof(SampleTypes.Ugly.UglyType));
             uglyTypeNames.Should().Contain(name => name.EndsWith("UglyType"));
         }
 
         [Fact]
         public void ShouldFindATypeFromOutsideTheHappyZoneUsedInAGenericType()
         {
-            var errors = _checker.CheckType(typeof(IEnumerable<UglyType>));
+            var errors = _checker.CheckType(typeof(IEnumerable<SampleTypes.Ugly.UglyType>));
             errors.Should().Contain(name => name.EndsWith("UglyType"));
         }
 
         [Fact]
         public void ShouldFindATypeFromOutsideTheHappyZoneUsedInAGenericTypeTwoStagesDeep()
         {
-            var errors = _checker.CheckType(typeof(Func<IEnumerable<UglyType>>));
+            var errors = _checker.CheckType(typeof(Func<IEnumerable<SampleTypes.Ugly.UglyType>>));
             errors.Should().Contain(name => name.EndsWith("UglyType"));
         }
     }
-}
-
-namespace Sample.Legal
-{
-    // ReSharper disable once UnusedMember.Global
-    class LegalClass { }
 }

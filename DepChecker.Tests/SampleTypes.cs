@@ -1,5 +1,5 @@
 // ReSharper disable once CheckNamespace
-namespace Sample
+namespace SampleTypes
 {
     class SomeType { }
     class SomeOtherType { }
@@ -8,5 +8,10 @@ namespace Sample
     namespace Ugly
     {
         class UglyType { }
+    }
+
+    namespace Legal
+    {
+        class LegalType { }
     }
 }

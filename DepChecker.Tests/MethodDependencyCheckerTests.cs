@@ -23,8 +23,8 @@ namespace DepChecker.Tests
         {
             _checker.Check(typeof(ClassWithSeveralMethods).GetTypeInfo());
 
-            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeType)), Times.Exactly(2));
-            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeOtherType)), Times.Once);
+            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(SampleTypes.SomeType)), Times.Exactly(2));
+            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(SampleTypes.SomeOtherType)), Times.Once);
         }
 
         [Fact]
@@ -32,13 +32,13 @@ namespace DepChecker.Tests
         {
             _checker.Check(typeof(ClassWithSeveralMethods).GetTypeInfo());
 
-            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.AnotherType)), Times.Once);
+            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(SampleTypes.AnotherType)), Times.Once);
         }
 
         [Fact]
         public void ShouldReturnFoundParameterTypesAsDependencyErrors()
         {
-            _namespaceCheckerMock.Setup(nc => nc.CheckType(typeof(Sample.Ugly.UglyType))).Returns(new[] { "UglyType" });
+            _namespaceCheckerMock.Setup(nc => nc.CheckType(typeof(SampleTypes.Ugly.UglyType))).Returns(new[] { "UglyType" });
 
             var errors = _checker.Check(typeof(ClassWithSeveralMethods).GetTypeInfo());
 
@@ -48,7 +48,7 @@ namespace DepChecker.Tests
         [Fact]
         public void ShouldReturnFoundReturnTypesAsDependencyErrors()
         {
-            _namespaceCheckerMock.Setup(nc => nc.CheckType(typeof(Sample.Ugly.UglyType))).Returns(new[] { "UglyType" });
+            _namespaceCheckerMock.Setup(nc => nc.CheckType(typeof(SampleTypes.Ugly.UglyType))).Returns(new[] { "UglyType" });
 
             var errors = _checker.Check(typeof(ClassWithSeveralMethods).GetTypeInfo());
 
@@ -72,12 +72,12 @@ namespace DepChecker.Tests
         {
             // ReSharper disable UnusedMember.Local
             // ReSharper disable UnusedParameter.Local
-            private void Method(Sample.SomeType param) { }
-            private void OtherMethod(Sample.SomeOtherType param1, Sample.SomeType param2) { }
-            private Sample.AnotherType MethodWithReturnValue() => null;
+            private void Method(SampleTypes.SomeType param) { }
+            private void OtherMethod(SampleTypes.SomeOtherType param1, SampleTypes.SomeType param2) { }
+            private SampleTypes.AnotherType MethodWithReturnValue() => null;
 
-            private void MethodWithUglyParameter(Sample.Ugly.UglyType uglyParameter) { }
-            private Sample.Ugly.UglyType MethodWithUglyReturnType() => null;
+            private void MethodWithUglyParameter(SampleTypes.Ugly.UglyType uglyParameter) { }
+            private SampleTypes.Ugly.UglyType MethodWithUglyReturnType() => null;
             // ReSharper restore UnusedParameter.Local
             // ReSharper restore UnusedMember.Local
         }

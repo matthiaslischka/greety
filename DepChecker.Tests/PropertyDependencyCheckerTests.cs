@@ -23,14 +23,14 @@ namespace DepChecker.Tests
         {
             _checker.Check(typeof(ClassWithSeveralProperties).GetTypeInfo());
 
-            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeType)), Times.Once);
-            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeOtherType)), Times.Once);
+            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(SampleTypes.SomeType)), Times.Once);
+            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(SampleTypes.SomeOtherType)), Times.Once);
         }
 
         [Fact]
         public void ShouldReturnFoundTypesAsDependencyErrors()
         {
-            _namespaceCheckerMock.Setup(nc => nc.CheckType(typeof(Sample.Ugly.UglyType))).Returns(new[] { "Sample.Ugly.UglyType" });
+            _namespaceCheckerMock.Setup(nc => nc.CheckType(typeof(SampleTypes.Ugly.UglyType))).Returns(new[] { "Sample.Ugly.UglyType" });
 
             var errors = _checker.Check(typeof(ClassWithSeveralProperties).GetTypeInfo());
 
@@ -46,9 +46,9 @@ namespace DepChecker.Tests
 
         private class ClassWithSeveralProperties
         {
-            private Sample.SomeType Property { get; }
-            private Sample.SomeOtherType OtherProperty { get; }
-            private Sample.Ugly.UglyType UglyProperty { get; }
+            private SampleTypes.SomeType Property { get; }
+            private SampleTypes.SomeOtherType OtherProperty { get; }
+            private SampleTypes.Ugly.UglyType UglyProperty { get; }
         }
     }
 }
