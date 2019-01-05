@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace DepChecker
 {
@@ -14,9 +13,9 @@ namespace DepChecker
             _fieldDependencyChecker = new FieldDependencyChecker(happyZoneNamespace);
         }
 
-        public List<DependencyError> Check(TypeInfo typeInHappyZone)
+        public DependencyErrors Check(TypeInfo typeInHappyZone)
         {
-            var errors = new List<DependencyError>();
+            var errors = new DependencyErrors();
 
             errors.AddRange(_constructorDependencyChecker.Check(typeInHappyZone));
             errors.AddRange(_fieldDependencyChecker.Check(typeInHappyZone));
