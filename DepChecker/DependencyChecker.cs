@@ -9,7 +9,9 @@ namespace DepChecker
 
         public DependencyChecker(string happyZoneNamespace)
         {
-            var typeChecker = new TypeChecker(happyZoneNamespace);
+            var typeChecker = new TypeChecker();
+            typeChecker.AddLegalNamespace(happyZoneNamespace);
+
             _constructorDependencyChecker = new ConstructorDependencyChecker(typeChecker);
             _fieldDependencyChecker = new FieldDependencyChecker(typeChecker);
         }

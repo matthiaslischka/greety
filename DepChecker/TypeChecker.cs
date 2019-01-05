@@ -12,11 +12,16 @@ namespace DepChecker
 
     public class TypeChecker : ITypeChecker
     {
-        private readonly string[] _legalNamespaces;
+        private readonly List<string> _legalNamespaces;
 
-        public TypeChecker(string legalNamespace)
+        public TypeChecker()
         {
-            _legalNamespaces = new[] {"System", legalNamespace};
+            _legalNamespaces = new List<string> {"System"};
+        }
+
+        public void AddLegalNamespace(string legalNamespace)
+        {
+            _legalNamespaces.Add(legalNamespace);
         }
 
         public IEnumerable<string> CheckType(Type typeToCheck)

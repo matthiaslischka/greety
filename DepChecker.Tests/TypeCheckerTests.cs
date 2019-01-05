@@ -12,13 +12,21 @@ namespace DepChecker.Tests
 
         public TypeCheckerTests()
         {
-            _checker = new TypeChecker("Sample.Nice");
+            _checker = new TypeChecker();
         }
 
         [Fact]
         public void ShouldNotFindSystemTypes()
         {
             var uglyTypeNames = _checker.CheckType(typeof(string));
+            uglyTypeNames.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void ShouldNotFindTypesInLegalNamespace()
+        {
+            _checker.AddLegalNamespace("Sample.Legal");
+            var uglyTypeNames = _checker.CheckType(typeof(Sample.Legal.LegalClass));
             uglyTypeNames.Should().BeEmpty();
         }
 
@@ -43,4 +51,10 @@ namespace DepChecker.Tests
             errors.Should().Contain(name => name.EndsWith("UglyType"));
         }
     }
+}
+
+namespace Sample.Legal
+{
+    // ReSharper disable once UnusedMember.Global
+    class LegalClass { }
 }
