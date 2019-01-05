@@ -28,7 +28,7 @@ namespace Greety.Tests.StaticCodeAnalysis
             errors.Should().BeEmpty();
         }
 
-        private void Dump(IEnumerable<DependencyError> errors)
+        private void Dump(IEnumerable<IDependencyError> errors)
         {
             foreach (var error in errors)
             {

@@ -4,16 +4,16 @@ using System.Reflection;
 
 namespace DepChecker
 {
-    public class DependencyErrors : IEnumerable<DependencyError>
+    public class DependencyErrors : IEnumerable<IDependencyError>
     {
-        private readonly List<DependencyError> _errors;
+        private readonly List<IDependencyError> _errors;
 
         public DependencyErrors()
         {
-            _errors = new List<DependencyError>();
+            _errors = new List<IDependencyError>();
         }
 
-        public IEnumerator<DependencyError> GetEnumerator()
+        public IEnumerator<IDependencyError> GetEnumerator()
         {
             return _errors.GetEnumerator();
         }
@@ -25,15 +25,15 @@ namespace DepChecker
 
         public void AddConstructorParameterError(TypeInfo typeInHappyZone, ParameterInfo parameterInfo)
         {
-            _errors.Add(new DependencyError("constructor parameter", typeInHappyZone.FullName, parameterInfo.Name, parameterInfo.ParameterType.FullName));
+            _errors.Add(new ConstructorParameterDependencyError(typeInHappyZone.FullName, parameterInfo.Name, parameterInfo.ParameterType.FullName));
         }
 
         public void AddFieldDependencyError(TypeInfo typeInHappyZone, FieldInfo fieldInfo)
         {
-            _errors.Add(new DependencyError("field", typeInHappyZone.FullName, fieldInfo.Name, fieldInfo.FieldType.FullName));
+            _errors.Add(new FieldDependencyError(typeInHappyZone.FullName, fieldInfo.Name, fieldInfo.FieldType.FullName));
         }
 
-        public void Add(DependencyErrors errors)
+        public void Append(DependencyErrors errors)
         {
             _errors.AddRange(errors);
         }

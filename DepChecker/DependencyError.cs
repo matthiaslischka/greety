@@ -1,18 +1,45 @@
 ﻿namespace DepChecker
 {
-    public class DependencyError
+    public interface IDependencyError
     {
-        public string DependencyType { get; }
+        string DependencyType { get; }
+        string HappyZoneTypeName { get; }
+        string ElementName { get; }
+        string NonHappyZoneTypeName { get; }
+    }
+
+    abstract class DependencyError : IDependencyError
+    {
+        public abstract string DependencyType { get; }
         public string HappyZoneTypeName { get; }
         public string ElementName { get; }
         public string NonHappyZoneTypeName { get; }
 
-        public DependencyError(string dependencyType, string happyZoneTypeName, string elementName, string nonHappyZoneTypeName)
+        protected DependencyError(string happyZoneTypeName, string elementName, string nonHappyZoneTypeName)
         {
-            DependencyType = dependencyType;
             HappyZoneTypeName = happyZoneTypeName;
             ElementName = elementName;
             NonHappyZoneTypeName = nonHappyZoneTypeName;
         }
+    }
+
+    class FieldDependencyError : DependencyError
+    {
+        public FieldDependencyError(string happyZoneTypeName, string elementName, string nonHappyZoneTypeName) 
+            : base(happyZoneTypeName, elementName, nonHappyZoneTypeName)
+        {
+        }
+
+        public override string DependencyType { get; } = "field";
+    }
+
+    class ConstructorParameterDependencyError : DependencyError
+    {
+        public ConstructorParameterDependencyError(string happyZoneTypeName, string elementName, string nonHappyZoneTypeName) 
+            : base(happyZoneTypeName, elementName, nonHappyZoneTypeName)
+        {
+        }
+
+        public override string DependencyType { get; } = "constructor parameter";
     }
 }
