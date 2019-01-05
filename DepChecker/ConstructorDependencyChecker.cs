@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace DepChecker
 {
@@ -12,9 +11,9 @@ namespace DepChecker
             _happyZoneNamespace = happyZoneNamespace;
         }
 
-        public IEnumerable<DependencyError> Check(TypeInfo typeInHappyZone)
+        public DependencyErrors Check(TypeInfo typeInHappyZone)
         {
-            var errors = new List<DependencyError>();
+            var errors = new DependencyErrors();
 
             foreach (var constructorInfo in typeInHappyZone.DeclaredConstructors)
             {
