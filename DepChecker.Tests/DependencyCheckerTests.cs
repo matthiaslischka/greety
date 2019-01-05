@@ -11,6 +11,7 @@ namespace DepChecker.Tests
         [InlineData(typeof(ConstructorDependencyChecker))]
         [InlineData(typeof(FieldDependencyChecker))]
         [InlineData(typeof(PropertyDependencyChecker))]
+        [InlineData(typeof(MethodDependencyChecker))]
         public void ShouldUseSubChecker(Type checkerType)
         {
             var dependencyChecker = DependencyChecker.Create("Sample.HappyZone");

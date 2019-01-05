@@ -3,6 +3,7 @@ namespace Sample
 {
     class SomeType { }
     class SomeOtherType { }
+    class AnotherType { }
 
     namespace Ugly
     {

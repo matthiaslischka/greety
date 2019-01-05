@@ -16,6 +16,7 @@ namespace DepChecker
                 new ConstructorDependencyChecker(namespaceChecker),
                 new FieldDependencyChecker(namespaceChecker),
                 new PropertyDependencyChecker(namespaceChecker),
+                new MethodDependencyChecker(namespaceChecker),
             };
 
             return new DependencyChecker(checkers);
