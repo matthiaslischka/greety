@@ -31,5 +31,10 @@ namespace DepChecker
         {
             _errors.AddRange(errors);
         }
+
+        public void Append(IEnumerable<IDependencyError> errors)
+        {
+            _errors.AddRange(errors);
+        }
     }
 }

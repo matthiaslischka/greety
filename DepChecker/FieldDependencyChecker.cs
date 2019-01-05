@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace DepChecker
@@ -18,34 +19,40 @@ namespace DepChecker
 
             foreach (var fieldInfo in typeInHappyZone.DeclaredFields)
             {
+                IEnumerable<IDependencyError> errs;
                 if (fieldInfo.FieldType.IsGenericType)
                 {
-                    CheckGenericType(fieldInfo.FieldType, typeInHappyZone, fieldInfo, errors);
+                    errs = CheckGenericType(fieldInfo.FieldType, typeInHappyZone, fieldInfo);
                 }
                 else
                 {
-                    CheckNonGenericType(fieldInfo.FieldType, typeInHappyZone, fieldInfo, errors);
+                    errs = CheckNonGenericType(fieldInfo.FieldType, typeInHappyZone, fieldInfo);
                 }
+                errors.Append(errs);
             }
 
             return errors;
         }
 
-        private void CheckGenericType(Type typeToCheck, TypeInfo typeInHappyZone, FieldInfo fieldInfo, DependencyErrors errors)
+        private IEnumerable<IDependencyError> CheckGenericType(Type typeToCheck, TypeInfo typeInHappyZone, FieldInfo fieldInfo)
         {
             foreach (var type in typeToCheck.GenericTypeArguments)
             {
-                CheckNonGenericType(type, typeInHappyZone, fieldInfo, errors);
+                var errs = CheckNonGenericType(type, typeInHappyZone, fieldInfo);
+                foreach (var dependencyError in errs)
+                {
+                    yield return dependencyError;
+                }
             }
         }
 
-        private void CheckNonGenericType(Type typeToCheck, TypeInfo typeInHappyZone, FieldInfo fieldInfo, DependencyErrors errors)
+        private IEnumerable<IDependencyError> CheckNonGenericType(Type typeToCheck, TypeInfo typeInHappyZone, FieldInfo fieldInfo)
         {
             var dependingNamespace = typeToCheck.Namespace;
             if (!dependingNamespace.StartsWith("System") &&
                 !dependingNamespace.StartsWith(_happyZoneNamespace))
             {
-                errors.Add(new FieldDependencyError(typeInHappyZone.FullName, fieldInfo.Name, typeToCheck.FullName));
+                yield return new FieldDependencyError(typeInHappyZone.FullName, fieldInfo.Name, typeToCheck.FullName);
             }
         }
 
