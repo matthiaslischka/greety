@@ -4,14 +4,14 @@ namespace DepChecker.Tests
 {
     public static class CheckerExtensions
     {
-        public static DependencyErrors Check<T>(this ConstructorDependencyChecker checker)
+        public static void Check<T>(this ConstructorDependencyChecker checker)
         {
-            return new DependencyErrors(checker.Check(typeof(T).GetTypeInfo()));
+            checker.Check(typeof(T).GetTypeInfo());
         }
 
-        public static DependencyErrors Check<T>(this FieldDependencyChecker checker)
+        public static void Check<T>(this FieldDependencyChecker checker)
         {
-            return new DependencyErrors(checker.Check(typeof(T).GetTypeInfo()));
+            checker.Check(typeof(T).GetTypeInfo());
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace DepChecker
@@ -12,7 +13,12 @@ namespace DepChecker
             _typeChecker = typeChecker;
         }
 
-        public IEnumerable<FieldDependencyError> Check(TypeInfo typeInHappyZone)
+        public IReadOnlyCollection<FieldDependencyError> Check(TypeInfo typeInHappyZone)
+        {
+            return CheckLazy(typeInHappyZone).ToList();
+        }
+
+        private IEnumerable<FieldDependencyError> CheckLazy(TypeInfo typeInHappyZone)
         {
             foreach (var fieldInfo in typeInHappyZone.DeclaredFields)
             {
