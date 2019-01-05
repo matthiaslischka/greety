@@ -15,6 +15,7 @@ namespace DepChecker
             {
                 new ConstructorDependencyChecker(namespaceChecker),
                 new FieldDependencyChecker(namespaceChecker),
+                new PropertyDependencyChecker(namespaceChecker),
             };
 
             return new DependencyChecker(checkers);
@@ -30,7 +31,7 @@ namespace DepChecker
         public IReadOnlyCollection<IDependencyError> Check(TypeInfo typeInHappyZone)
         {
             return Checkers.SelectMany(c => c.Check(typeInHappyZone))
-                            .ToList();
+                           .ToList();
         }
     }
 }
