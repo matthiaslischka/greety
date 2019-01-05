@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using FluentAssertions;
-using Sample.Nice;
-using Sample.Ugly;
+using Moq;
 using Xunit;
 
 namespace DepChecker.Tests
@@ -11,49 +6,33 @@ namespace DepChecker.Tests
     public class ConstructorDependencyCheckerTests
     {
         private readonly ConstructorDependencyChecker _checker;
+        private readonly Mock<ITypeChecker> _typeCheckerMock;
 
         public ConstructorDependencyCheckerTests()
         {
-            _checker = new ConstructorDependencyChecker(new TypeChecker("Sample.Nice"));
+            _typeCheckerMock = new Mock<ITypeChecker>();
+            _checker = new ConstructorDependencyChecker(_typeCheckerMock.Object);
         }
 
         [Fact]
-        public void ShouldReportAParameterFromOutsideTheHappyZone()
+        public void ShouldCheckAllParametersOfAllConstructors()
         {
-            var errors = _checker.Check<ClassWithUglyConstructorParameter>();
-            errors.Should().Contain(ConstructorDependencyError("uglyParameter", "UglyType"));
-        }
-
-        [Fact]
-        public void ShouldReportAParameterFromOutsideTheHappyZoneUsedInAGenericType()
-        {
-            var errors = _checker.Check<ClassWithUglyConstructorParameterUsedInAGenericType>();
-            errors.Should().Contain(ConstructorDependencyError("indirectUglyParameter", "UglyType"));
-        }
-
-        private Expression<Func<IDependencyError, bool>> ConstructorDependencyError(string uglyParameterName, string uglyTypeName)
-        {
-            return err => err is ConstructorDependencyChecker.ConstructorParameterDependencyError &&
-                          err.ElementName == uglyParameterName &&
-                          err.NonHappyZoneTypeName.EndsWith(uglyTypeName);
+            _checker.Check<Sample.ClassWithSeveralConstructors>();
+            _typeCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeType)), Times.Exactly(2));
+            _typeCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeOtherType)), Times.Once);
         }
     }
 }
 
 namespace Sample
 {
-    namespace Nice
+    // ReSharper disable UnusedParameter.Local
+    // ReSharper disable UnusedMember.Global
+    class ClassWithSeveralConstructors
     {
-        // ReSharper disable UnusedParameter.Local
-        class ClassWithUglyConstructorParameter
-        {
-            public ClassWithUglyConstructorParameter(UglyType uglyParameter) { }
-        }
-
-        class ClassWithUglyConstructorParameterUsedInAGenericType
-        {
-            public ClassWithUglyConstructorParameterUsedInAGenericType(IEnumerable<UglyType> indirectUglyParameter) { }
-        }
-        // ReSharper restore UnusedParameter.Local
+        public ClassWithSeveralConstructors(SomeType someParameter) { }
+        public ClassWithSeveralConstructors(SomeType someParameter, SomeOtherType someOtherParameter) { }
     }
+    // ReSharper restore UnusedMember.Global
+    // ReSharper restore UnusedParameter.Local
 }

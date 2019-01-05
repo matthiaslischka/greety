@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using FluentAssertions;
+using Moq;
+using Sample;
 using Sample.Nice;
-using Sample.Ugly;
 using Xunit;
 
 namespace DepChecker.Tests
@@ -11,31 +8,20 @@ namespace DepChecker.Tests
     public class FieldDependencyCheckerTests
     {
         private readonly FieldDependencyChecker _checker;
+        private readonly Mock<ITypeChecker> _typeCheckerMock;
 
         public FieldDependencyCheckerTests()
         {
-            _checker = new FieldDependencyChecker(new TypeChecker("Sample.Nice"));
+            _typeCheckerMock = new Mock<ITypeChecker>();
+            _checker = new FieldDependencyChecker(_typeCheckerMock.Object);
         }
 
         [Fact]
-        public void ShouldReportAParameterFromOutsideTheHappyZone()
+        public void ShouldCheckAllFields()
         {
-            var errors = _checker.Check<ClassWithUglyField>();
-            errors.Should().Contain(FieldDependencyError("_uglyField", "UglyType"));
-        }
-
-        [Fact]
-        public void ShouldReportAParameterFromOutsideTheHappyZoneUsedInAGenericType()
-        {
-            var errors = _checker.Check<ClassWithFieldUsingAnUglyTypeInAGeneric>();
-            errors.Should().Contain(FieldDependencyError("_indirectUglyField", "UglyType"));
-        }
-
-        private Expression<Func<IDependencyError, bool>> FieldDependencyError(string uglyFieldName, string uglyTypeName)
-        {
-            return err => err is FieldDependencyChecker.FieldDependencyError &&
-                          err.ElementName == uglyFieldName &&
-                          err.NonHappyZoneTypeName.EndsWith(uglyTypeName);
+            _checker.Check<ClassWithSeveralFields>();
+            _typeCheckerMock.Verify(tc => tc.CheckType(typeof(SomeType)), Times.Once);
+            _typeCheckerMock.Verify(tc => tc.CheckType(typeof(SomeOtherType)), Times.Once);
         }
     }
 }
@@ -46,14 +32,10 @@ namespace Sample
     {
         // ReSharper disable ClassNeverInstantiated.Global
 #pragma warning disable 169
-        class ClassWithUglyField
+        class ClassWithSeveralFields
         {
-            private UglyType _uglyField;
-        }
-
-        class ClassWithFieldUsingAnUglyTypeInAGeneric
-        {
-            private IEnumerable<UglyType> _indirectUglyField;
+            private SomeType _field;
+            private SomeOtherType _otherField;
         }
 #pragma warning restore 169
         // ReSharper enable ClassNeverInstantiated.Global
