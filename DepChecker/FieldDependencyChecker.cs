@@ -30,8 +30,8 @@ namespace DepChecker
 
         private class FieldDependencyError : DependencyErrorBase
         {
-            public FieldDependencyError(string happyZoneTypeName, string elementName, string nonHappyZoneTypeName)
-                : base(happyZoneTypeName, elementName, nonHappyZoneTypeName)
+            public FieldDependencyError(string happyZoneTypeName, string fieldName, string nonHappyZoneTypeName)
+                : base(happyZoneTypeName, fieldName, nonHappyZoneTypeName)
             {
             }
 
