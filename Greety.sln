@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.106
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Greety.Tests", "Greety.Tests\Greety.Tests.csproj", "{AA0926DB-4559-4C2F-8780-70A984807415}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Greety", "Greety\Greety.csproj", "{07896445-8E4F-44BF-ACCE-14A8C01C2DD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepChecker", "DepChecker\DepChecker.csproj", "{46EE6B3D-DC22-4A19-811A-13BA570D683E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{07896445-8E4F-44BF-ACCE-14A8C01C2DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07896445-8E4F-44BF-ACCE-14A8C01C2DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07896445-8E4F-44BF-ACCE-14A8C01C2DD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46EE6B3D-DC22-4A19-811A-13BA570D683E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46EE6B3D-DC22-4A19-811A-13BA570D683E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46EE6B3D-DC22-4A19-811A-13BA570D683E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46EE6B3D-DC22-4A19-811A-13BA570D683E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

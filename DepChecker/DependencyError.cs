@@ -1,4 +1,4 @@
-﻿namespace Greety.Tests.StaticCodeAnalysis
+﻿namespace DepChecker
 {
     public class DependencyError
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace Greety.Tests.StaticCodeAnalysis
+namespace DepChecker
 {
     internal class FieldDependencyChecker
     {

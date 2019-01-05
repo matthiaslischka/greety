@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DepChecker\DepChecker.csproj" />
     <ProjectReference Include="..\Greety\Greety.csproj" />
   </ItemGroup>
 
