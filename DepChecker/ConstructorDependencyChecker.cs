@@ -5,9 +5,9 @@ namespace DepChecker
 {
     public class ConstructorDependencyChecker
     {
-        private readonly TypeChecker _typeChecker;
+        private readonly ITypeChecker _typeChecker;
 
-        public ConstructorDependencyChecker(TypeChecker typeChecker)
+        public ConstructorDependencyChecker(ITypeChecker typeChecker)
         {
             _typeChecker = typeChecker;
         }

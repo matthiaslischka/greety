@@ -3,7 +3,12 @@ using System.Collections.Generic;
 
 namespace DepChecker
 {
-    public class TypeChecker
+    public interface ITypeChecker
+    {
+        IEnumerable<string> CheckType(Type typeToCheck);
+    }
+
+    public class TypeChecker : ITypeChecker
     {
         private readonly string _happyZoneNamespace;
 
