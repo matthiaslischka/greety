@@ -26,16 +26,15 @@ namespace DepChecker
 
                 foreach (var uglyTypeName in uglyTypeNames)
                 {
-                    yield return null;
-                    //yield return new PropertyDependencyError(typeInHappyZone.FullName, propertyInfo.Name, uglyTypeName);
+                    yield return new PropertyDependencyError(typeInHappyZone.FullName, propertyInfo.Name, uglyTypeName);
                 }
             }
         }
 
-        private class PropertyDependencyError : DependencyErrorBase
+        public class PropertyDependencyError : DependencyErrorBase
         {
-            public PropertyDependencyError(string happyZoneTypeName, string elementName, string nonHappyZoneTypeName) 
-                : base(happyZoneTypeName, elementName, nonHappyZoneTypeName)
+            public PropertyDependencyError(string happyZoneTypeName, string propertyName, string nonHappyZoneTypeName) 
+                : base(happyZoneTypeName, propertyName, nonHappyZoneTypeName)
             {
             }
 

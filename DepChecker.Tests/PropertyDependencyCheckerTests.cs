@@ -1,7 +1,8 @@
+using System;
+using System.Linq.Expressions;
 using System.Reflection;
+using FluentAssertions;
 using Moq;
-using Sample;
-using Sample.Nice;
 using Xunit;
 
 namespace DepChecker.Tests
@@ -22,20 +23,32 @@ namespace DepChecker.Tests
         {
             _checker.Check(typeof(ClassWithSeveralProperties).GetTypeInfo());
 
-            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(SomeType)), Times.Once);
-            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(SomeOtherType)), Times.Once);
+            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeType)), Times.Once);
+            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeOtherType)), Times.Once);
         }
-    }
-}
 
-namespace Sample
-{
-    namespace Nice
-    {
-        class ClassWithSeveralProperties
+        [Fact]
+        public void ShouldReturnFoundTypesAsDependencyErrors()
         {
-            private SomeType Field { get; }
-            private SomeOtherType OtherField { get; }
+            _namespaceCheckerMock.Setup(nc => nc.CheckType(typeof(Sample.Ugly.UglyType))).Returns(new[] { "Sample.Ugly.UglyType" });
+
+            var errors = _checker.Check(typeof(ClassWithSeveralProperties).GetTypeInfo());
+
+            errors.Should().Contain(PropertyDependencyError("UglyProperty", "UglyType"));
+        }
+
+        private Expression<Func<IDependencyError, bool>> PropertyDependencyError(string uglyPropertyName, string uglyTypeName)
+        {
+            return err => err is PropertyDependencyChecker.PropertyDependencyError &&
+                          err.ElementName == uglyPropertyName &&
+                          err.NonHappyZoneTypeName.EndsWith(uglyTypeName);
+        }
+
+        private class ClassWithSeveralProperties
+        {
+            private Sample.SomeType Property { get; }
+            private Sample.SomeOtherType OtherProperty { get; }
+            private Sample.Ugly.UglyType UglyProperty { get; }
         }
     }
 }
