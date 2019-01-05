@@ -57,14 +57,14 @@ namespace DepChecker.Tests
 
         private Expression<Func<IDependencyError, bool>> ParameterDependencyError(string uglyParameterName, string uglyTypeName)
         {
-            return err => err is MethodDependencyChecker.ParameterDependencyError &&
+            return err => err is MethodDependencyChecker.MethodParameterDependencyError &&
                           err.ElementName == uglyParameterName &&
                           err.NonHappyZoneTypeName.EndsWith(uglyTypeName);
         }
 
         private Expression<Func<IDependencyError, bool>> ResultDependencyError(string uglyTypeName)
         {
-            return err => err is MethodDependencyChecker.ResultDependencyError &&
+            return err => err is MethodDependencyChecker.MethodResultDependencyError &&
                           err.NonHappyZoneTypeName.EndsWith(uglyTypeName);
         }
 

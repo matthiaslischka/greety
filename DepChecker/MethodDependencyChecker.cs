@@ -39,7 +39,7 @@ namespace DepChecker
             var invalidTypeNames = _namespaceChecker.CheckType(methodInfo.ReturnType);
             foreach (var invalidTypeName in invalidTypeNames)
             {
-                yield return new ResultDependencyError(typeInHappyZone.FullName, invalidTypeName);
+                yield return new MethodResultDependencyError(typeInHappyZone.FullName, invalidTypeName);
             }
         }
 
@@ -51,24 +51,24 @@ namespace DepChecker
 
                 foreach (var invalidTypeName in invalidTypeNames)
                 {
-                    yield return new ParameterDependencyError(typeInHappyZone.FullName, parameterInfo.Name, invalidTypeName);
+                    yield return new MethodParameterDependencyError(typeInHappyZone.FullName, parameterInfo.Name, invalidTypeName);
                 }
             }
         }
 
-        public class ParameterDependencyError : DependencyErrorBase
+        public class MethodParameterDependencyError : DependencyErrorBase
         {
-            public ParameterDependencyError(string happyZoneTypeName, string parameterName, string nonHappyZoneTypeName) :
+            public MethodParameterDependencyError(string happyZoneTypeName, string parameterName, string nonHappyZoneTypeName) :
                 base(happyZoneTypeName, parameterName, nonHappyZoneTypeName)
             {
             }
 
-            public override string DependencyType { get; } = "method";
+            public override string DependencyType { get; } = "method parameter";
         }
 
-        public class ResultDependencyError : DependencyErrorBase
+        public class MethodResultDependencyError : DependencyErrorBase
         {
-            public ResultDependencyError(string happyZoneTypeName, string nonHappyZoneTypeName) 
+            public MethodResultDependencyError(string happyZoneTypeName, string nonHappyZoneTypeName) 
                 : base(happyZoneTypeName, "(method result)", nonHappyZoneTypeName)
             {
             }
