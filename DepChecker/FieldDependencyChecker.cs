@@ -22,8 +22,7 @@ namespace DepChecker
                 if (!dependingNamespace.StartsWith("System") &&
                     !dependingNamespace.StartsWith(_happyZoneNamespace))
                 {
-                    errors.Add(new DependencyError("field", typeInHappyZone.FullName, fieldInfo.Name,
-                        fieldInfo.FieldType.FullName));
+                    errors.AddFieldDependencyError(typeInHappyZone, fieldInfo);
                 }
             }
 

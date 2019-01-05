@@ -24,8 +24,7 @@ namespace DepChecker
                     if (!dependingNamespace.StartsWith("System") &&
                         !dependingNamespace.StartsWith(_happyZoneNamespace))
                     {
-                        errors.Add(new DependencyError("constructor parameter", typeInHappyZone.FullName, parameterInfo.Name,
-                            parameterInfo.ParameterType.FullName));
+                        errors.AddConstructorParameterError(typeInHappyZone, parameterInfo);
                     }
                 }
             }
