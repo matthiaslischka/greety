@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace DepChecker
 {
@@ -11,11 +12,11 @@ namespace DepChecker
 
     public class TypeChecker : ITypeChecker
     {
-        private readonly string _happyZoneNamespace;
+        private readonly string[] _legalNamespaces;
 
-        public TypeChecker(string happyZoneNamespace)
+        public TypeChecker(string legalNamespace)
         {
-            _happyZoneNamespace = happyZoneNamespace;
+            _legalNamespaces = new[] {"System", legalNamespace};
         }
 
         public IEnumerable<string> CheckType(Type typeToCheck)
@@ -29,21 +30,20 @@ namespace DepChecker
         {
             foreach (var type in typeToCheck.GenericTypeArguments)
             {
-                var uglyTypeNames = CheckType(type);
-                foreach (var uglyTypeName in uglyTypeNames)
+                var illegalTypeNames = CheckType(type);
+                foreach (var illegalTypeName in illegalTypeNames)
                 {
-                    yield return uglyTypeName;
+                    yield return illegalTypeName;
                 }
             }
         }
 
         private IEnumerable<string> CheckNonGenericType(Type typeToCheck)
         {
-            var dependingNamespace = typeToCheck.Namespace;
-            Debug.Assert(dependingNamespace != null);
+            var namespaceToCheck = typeToCheck.Namespace;
+            Debug.Assert(namespaceToCheck != null);
 
-            if (!dependingNamespace.StartsWith("System") &&
-                !dependingNamespace.StartsWith(_happyZoneNamespace))
+            if (!_legalNamespaces.Any(ns => namespaceToCheck.StartsWith(ns)))
             {
                 yield return typeToCheck.FullName;
             }
