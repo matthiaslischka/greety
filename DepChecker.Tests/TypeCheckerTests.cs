@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using Sample.Ugly;
@@ -25,6 +26,13 @@ namespace DepChecker.Tests
         public void ShouldFindATypeFromOutsideTheHappyZoneUsedInAGenericType()
         {
             var errors = _checker.CheckType(typeof(IEnumerable<UglyType>));
+            errors.Should().Contain(name => name.EndsWith("UglyType"));
+        }
+
+        [Fact]
+        public void ShouldFindATypeFromOutsideTheHappyZoneUsedInAGenericTypeTwoStagesDeep()
+        {
+            var errors = _checker.CheckType(typeof(Func<IEnumerable<UglyType>>));
             errors.Should().Contain(name => name.EndsWith("UglyType"));
         }
     }

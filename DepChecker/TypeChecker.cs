@@ -28,7 +28,7 @@ namespace DepChecker
         {
             foreach (var type in typeToCheck.GenericTypeArguments)
             {
-                var uglyTypeNames = CheckNonGenericType(type);
+                var uglyTypeNames = CheckType(type);
                 foreach (var uglyTypeName in uglyTypeNames)
                 {
                     yield return uglyTypeName;
