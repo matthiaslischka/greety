@@ -12,12 +12,7 @@ namespace DepChecker
             _typeChecker = typeChecker;
         }
 
-        public DependencyErrors Check(TypeInfo typeInHappyZone)
-        {
-            return new DependencyErrors(CheckConstructorParameters(typeInHappyZone));
-        }
-
-        private IEnumerable<ConstructorParameterDependencyError> CheckConstructorParameters(TypeInfo typeInHappyZone)
+        public IEnumerable<ConstructorParameterDependencyError> Check(TypeInfo typeInHappyZone)
         {
             foreach (var constructorInfo in typeInHappyZone.DeclaredConstructors)
             {

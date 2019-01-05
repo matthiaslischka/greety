@@ -12,12 +12,7 @@ namespace DepChecker
             _typeChecker = typeChecker;
         }
 
-        public DependencyErrors Check(TypeInfo typeInHappyZone)
-        {
-            return new DependencyErrors(CheckFields(typeInHappyZone));
-        }
-
-        private IEnumerable<FieldDependencyError> CheckFields(TypeInfo typeInHappyZone)
+        public IEnumerable<FieldDependencyError> Check(TypeInfo typeInHappyZone)
         {
             foreach (var fieldInfo in typeInHappyZone.DeclaredFields)
             {
