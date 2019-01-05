@@ -6,9 +6,9 @@ namespace DepChecker
 {
     public class PropertyDependencyChecker : IDependencyChecker
     {
-        private readonly NamespaceChecker _namespaceChecker;
+        private readonly INamespaceChecker _namespaceChecker;
 
-        public PropertyDependencyChecker(NamespaceChecker namespaceChecker)
+        public PropertyDependencyChecker(INamespaceChecker namespaceChecker)
         {
             _namespaceChecker = namespaceChecker;
         }
@@ -20,7 +20,25 @@ namespace DepChecker
 
         private IEnumerable<IDependencyError> CheckLazy(TypeInfo typeInHappyZone)
         {
-            yield break;
+            foreach (var propertyInfo in typeInHappyZone.DeclaredProperties)
+            {
+                var uglyTypeNames = _namespaceChecker.CheckType(propertyInfo.PropertyType);
+
+                foreach (var uglyTypeName in uglyTypeNames)
+                {
+                    yield return new PropertyDependencyError(typeInHappyZone.FullName, propertyInfo.Name, uglyTypeName);
+                }
+            }
+        }
+
+        private class PropertyDependencyError : DependencyErrorBase
+        {
+            public PropertyDependencyError(string happyZoneTypeName, string elementName, string nonHappyZoneTypeName) 
+                : base(happyZoneTypeName, elementName, nonHappyZoneTypeName)
+            {
+            }
+
+            public override string DependencyType { get; } = "property";
         }
     }
 }
