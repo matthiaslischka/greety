@@ -26,7 +26,8 @@ namespace DepChecker
 
                 foreach (var uglyTypeName in uglyTypeNames)
                 {
-                    yield return new FieldDependencyError(typeInHappyZone.FullName, fieldInfo.Name, uglyTypeName);
+                    yield return null;
+                    //yield return new FieldDependencyError(typeInHappyZone.FullName, fieldInfo.Name, uglyTypeName);
                 }
             }
         }
