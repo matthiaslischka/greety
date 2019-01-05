@@ -36,5 +36,10 @@ namespace DepChecker
         {
             _errors.AddRange(errors);
         }
+
+        public void Append(IDependencyError error)
+        {
+            _errors.Add(error);
+        }
     }
 }

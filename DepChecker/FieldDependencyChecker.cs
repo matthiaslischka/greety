@@ -19,40 +19,44 @@ namespace DepChecker
 
             foreach (var fieldInfo in typeInHappyZone.DeclaredFields)
             {
-                IEnumerable<IDependencyError> errs;
+                IEnumerable<string> uglyTypeNames;
                 if (fieldInfo.FieldType.IsGenericType)
                 {
-                    errs = CheckGenericType(fieldInfo.FieldType, typeInHappyZone, fieldInfo);
+                    uglyTypeNames = CheckGenericType(fieldInfo.FieldType);
                 }
                 else
                 {
-                    errs = CheckNonGenericType(fieldInfo.FieldType, typeInHappyZone, fieldInfo);
+                    uglyTypeNames = CheckNonGenericType(fieldInfo.FieldType);
                 }
-                errors.Append(errs);
+
+                foreach (var uglyTypeName in uglyTypeNames)
+                {
+                    errors.Append(new FieldDependencyError(typeInHappyZone.FullName, fieldInfo.Name, uglyTypeName));
+                }
             }
 
             return errors;
         }
 
-        private IEnumerable<IDependencyError> CheckGenericType(Type typeToCheck, TypeInfo typeInHappyZone, FieldInfo fieldInfo)
+        private IEnumerable<string> CheckGenericType(Type typeToCheck)
         {
             foreach (var type in typeToCheck.GenericTypeArguments)
             {
-                var errs = CheckNonGenericType(type, typeInHappyZone, fieldInfo);
-                foreach (var dependencyError in errs)
+                var uglyTypeNames = CheckNonGenericType(type);
+                foreach (var uglyTypeName in uglyTypeNames)
                 {
-                    yield return dependencyError;
+                    yield return uglyTypeName;
                 }
             }
         }
 
-        private IEnumerable<IDependencyError> CheckNonGenericType(Type typeToCheck, TypeInfo typeInHappyZone, FieldInfo fieldInfo)
+        private IEnumerable<string> CheckNonGenericType(Type typeToCheck)
         {
             var dependingNamespace = typeToCheck.Namespace;
             if (!dependingNamespace.StartsWith("System") &&
                 !dependingNamespace.StartsWith(_happyZoneNamespace))
             {
-                yield return new FieldDependencyError(typeInHappyZone.FullName, fieldInfo.Name, typeToCheck.FullName);
+                yield return typeToCheck.FullName;
             }
         }
 
