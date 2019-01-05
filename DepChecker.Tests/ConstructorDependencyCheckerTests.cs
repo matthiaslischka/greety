@@ -14,7 +14,7 @@ namespace DepChecker.Tests
 
         public ConstructorDependencyCheckerTests()
         {
-            _checker = new ConstructorDependencyChecker("Sample.Nice");
+            _checker = new ConstructorDependencyChecker(new TypeChecker("Sample.Nice"));
         }
 
         [Fact]

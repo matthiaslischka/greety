@@ -5,7 +5,7 @@ namespace DepChecker
 {
     public class TypeChecker
     {
-        public readonly string _happyZoneNamespace;
+        private readonly string _happyZoneNamespace;
 
         public TypeChecker(string happyZoneNamespace)
         {

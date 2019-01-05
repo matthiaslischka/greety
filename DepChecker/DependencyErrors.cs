@@ -22,17 +22,7 @@ namespace DepChecker
             return ((IEnumerable) _errors).GetEnumerator();
         }
 
-        public void Add(IDependencyError error)
-        {
-            _errors.Add(error);
-        }
-
         public void Append(DependencyErrors errors)
-        {
-            _errors.AddRange(errors);
-        }
-
-        public void Append(IEnumerable<IDependencyError> errors)
         {
             _errors.AddRange(errors);
         }
