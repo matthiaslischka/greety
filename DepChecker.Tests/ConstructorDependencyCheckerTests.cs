@@ -18,7 +18,10 @@ namespace DepChecker.Tests
         public void ShouldReportAParameterFromOutsideTheHappyZone()
         {
             var errors = _checker.Check<ClassWithUglyConstructorParameter>();
-            errors.Should().Contain(err => err.NonHappyZoneTypeName.Contains("UglyType"));
+            errors.Should().Contain(err => err.HappyZoneTypeName.StartsWith("Sample.Nice") &&
+                                           err.DependencyType == "constructor parameter" &&
+                                           err.ElementName == "uglyParameter" &&
+                                           err.NonHappyZoneTypeName.EndsWith("UglyType"));
         }
     }
 }
@@ -30,7 +33,7 @@ namespace Sample
         class ClassWithUglyConstructorParameter
         {
             // ReSharper disable once UnusedParameter.Local
-            public ClassWithUglyConstructorParameter(UglyType ugly) { }
+            public ClassWithUglyConstructorParameter(UglyType uglyParameter) { }
         }
     }
 
