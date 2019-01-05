@@ -19,15 +19,11 @@ namespace DepChecker
 
             foreach (var fieldInfo in typeInHappyZone.DeclaredFields)
             {
-                IEnumerable<string> uglyTypeNames;
-                if (fieldInfo.FieldType.IsGenericType)
-                {
-                    uglyTypeNames = CheckGenericType(fieldInfo.FieldType);
-                }
-                else
-                {
-                    uglyTypeNames = CheckNonGenericType(fieldInfo.FieldType);
-                }
+                var typeToCheck = fieldInfo.FieldType;
+
+                var uglyTypeNames = typeToCheck.IsGenericType
+                    ? CheckGenericType(typeToCheck)
+                    : CheckNonGenericType(typeToCheck);
 
                 foreach (var uglyTypeName in uglyTypeNames)
                 {
