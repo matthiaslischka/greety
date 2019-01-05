@@ -16,6 +16,13 @@ namespace DepChecker.Tests
         }
 
         [Fact]
+        public void ShouldNotFindSystemTypes()
+        {
+            var uglyTypeNames = _checker.CheckType(typeof(string));
+            uglyTypeNames.Should().BeEmpty();
+        }
+
+        [Fact]
         public void ShouldFindATypeFromOutsideTheHappyZone()
         {
             var uglyTypeNames = _checker.CheckType(typeof(UglyType));
