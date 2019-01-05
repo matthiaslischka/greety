@@ -26,13 +26,12 @@ namespace DepChecker
 
                 foreach (var uglyTypeName in uglyTypeNames)
                 {
-                    yield return null;
-                    //yield return new FieldDependencyError(typeInHappyZone.FullName, fieldInfo.Name, uglyTypeName);
+                    yield return new FieldDependencyError(typeInHappyZone.FullName, fieldInfo.Name, uglyTypeName);
                 }
             }
         }
 
-        private class FieldDependencyError : DependencyErrorBase
+        public class FieldDependencyError : DependencyErrorBase
         {
             public FieldDependencyError(string happyZoneTypeName, string fieldName, string nonHappyZoneTypeName)
                 : base(happyZoneTypeName, fieldName, nonHappyZoneTypeName)
