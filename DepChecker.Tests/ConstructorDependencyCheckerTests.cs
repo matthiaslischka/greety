@@ -1,6 +1,8 @@
+using System;
+using System.Linq.Expressions;
 using System.Reflection;
+using FluentAssertions;
 using Moq;
-using Sample;
 using Xunit;
 
 namespace DepChecker.Tests
@@ -24,18 +26,33 @@ namespace DepChecker.Tests
             _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeType)), Times.Exactly(2));
             _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeOtherType)), Times.Once);
         }
-    }
-}
 
-namespace Sample
-{
-    // ReSharper disable UnusedParameter.Local
-    // ReSharper disable UnusedMember.Global
-    class ClassWithSeveralConstructors
-    {
-        public ClassWithSeveralConstructors(SomeType someParameter) { }
-        public ClassWithSeveralConstructors(SomeType someParameter, SomeOtherType someOtherParameter) { }
+        [Fact]
+        public void ShouldReturnFoundTypesAsDependencyErrors()
+        {
+            _namespaceCheckerMock.Setup(nc => nc.CheckType(typeof(Sample.Ugly.UglyType))).Returns(new[] { "Sample.Ugly.UglyType" });
+
+            var errors = _checker.Check(typeof(ClassWithSeveralConstructors).GetTypeInfo());
+
+            errors.Should().Contain(ConstructorDependencyError("someUglyParameter", "UglyType"));
+        }
+
+        private Expression<Func<IDependencyError, bool>> ConstructorDependencyError(string uglyParameterName, string uglyTypeName)
+        {
+            return err => err is ConstructorDependencyChecker.ConstructorParameterDependencyError &&
+                          err.ElementName == uglyParameterName &&
+                          err.NonHappyZoneTypeName.EndsWith(uglyTypeName);
+        }
+
+        private class ClassWithSeveralConstructors
+        {
+            // ReSharper disable UnusedParameter.Local
+            // ReSharper disable UnusedMember.Local
+            public ClassWithSeveralConstructors(Sample.SomeType someParameter) { }
+            public ClassWithSeveralConstructors(Sample.Ugly.UglyType someUglyParameter) { }
+            public ClassWithSeveralConstructors(Sample.SomeType someParameter, Sample.SomeOtherType someOtherParameter) { }
+            // ReSharper restore UnusedMember.Local
+            // ReSharper restore UnusedParameter.Local
+        }
     }
-    // ReSharper restore UnusedMember.Global
-    // ReSharper restore UnusedParameter.Local
 }

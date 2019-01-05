@@ -28,14 +28,13 @@ namespace DepChecker
 
                     foreach (var uglyTypeName in uglyTypeNames)
                     {
-                        yield return null;
-                        //yield return new ConstructorParameterDependencyError(typeInHappyZone.FullName, parameterInfo.Name, uglyTypeName);
+                        yield return new ConstructorParameterDependencyError(typeInHappyZone.FullName, parameterInfo.Name, uglyTypeName);
                     }
                 }
             }
         }
 
-        private class ConstructorParameterDependencyError : DependencyErrorBase
+        public class ConstructorParameterDependencyError : DependencyErrorBase
         {
             public ConstructorParameterDependencyError(string happyZoneTypeName, string parameterName, string nonHappyZoneTypeName)
                 : base(happyZoneTypeName, parameterName, nonHappyZoneTypeName)
