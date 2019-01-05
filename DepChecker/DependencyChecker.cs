@@ -6,8 +6,6 @@ namespace DepChecker
 {
     public class DependencyChecker
     {
-        private readonly IList<IDependencyChecker> _checkers;
-
         public static DependencyChecker Create(string happyZoneNamespace)
         {
             var namespaceChecker = new NamespaceChecker();
@@ -16,20 +14,22 @@ namespace DepChecker
             var checkers = new List<IDependencyChecker>
             {
                 new ConstructorDependencyChecker(namespaceChecker),
-                new FieldDependencyChecker(namespaceChecker)
+                new FieldDependencyChecker(namespaceChecker),
             };
 
             return new DependencyChecker(checkers);
         }
 
+        public IList<IDependencyChecker> Checkers { get; }
+
         private DependencyChecker(IEnumerable<IDependencyChecker> checkers)
         {
-            _checkers = new List<IDependencyChecker>(checkers);
+            Checkers = new List<IDependencyChecker>(checkers);
         }
 
         public IReadOnlyCollection<IDependencyError> Check(TypeInfo typeInHappyZone)
         {
-            return _checkers.SelectMany(c => c.Check(typeInHappyZone))
+            return Checkers.SelectMany(c => c.Check(typeInHappyZone))
                             .ToList();
         }
     }
