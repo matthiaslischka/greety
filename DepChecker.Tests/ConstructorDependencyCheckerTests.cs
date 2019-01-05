@@ -42,9 +42,4 @@ namespace Sample
             public ClassWithUglyConstructorParameter(UglyType uglyParameter) { }
         }
     }
-
-    namespace Ugly
-    {
-        class UglyType { }
-    }
 }
