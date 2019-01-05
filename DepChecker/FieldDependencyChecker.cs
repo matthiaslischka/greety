@@ -6,11 +6,11 @@ namespace DepChecker
 {
     public class FieldDependencyChecker
     {
-        private readonly ITypeChecker _typeChecker;
+        private readonly INamespaceChecker _namespaceChecker;
 
-        public FieldDependencyChecker(ITypeChecker typeChecker)
+        public FieldDependencyChecker(INamespaceChecker namespaceChecker)
         {
-            _typeChecker = typeChecker;
+            _namespaceChecker = namespaceChecker;
         }
 
         public IReadOnlyCollection<FieldDependencyError> Check(TypeInfo typeInHappyZone)
@@ -22,7 +22,7 @@ namespace DepChecker
         {
             foreach (var fieldInfo in typeInHappyZone.DeclaredFields)
             {
-                var uglyTypeNames = _typeChecker.CheckType(fieldInfo.FieldType);
+                var uglyTypeNames = _namespaceChecker.CheckType(fieldInfo.FieldType);
 
                 foreach (var uglyTypeName in uglyTypeNames)
                 {

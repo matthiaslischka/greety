@@ -5,16 +5,16 @@ using System.Linq;
 
 namespace DepChecker
 {
-    public interface ITypeChecker
+    public interface INamespaceChecker
     {
         IEnumerable<string> CheckType(Type typeToCheck);
     }
 
-    public class TypeChecker : ITypeChecker
+    public class NamespaceChecker : INamespaceChecker
     {
         private readonly List<string> _legalNamespaces;
 
-        public TypeChecker()
+        public NamespaceChecker()
         {
             _legalNamespaces = new List<string> {"System"};
         }

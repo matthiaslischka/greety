@@ -6,11 +6,11 @@ namespace DepChecker
 {
     public class ConstructorDependencyChecker
     {
-        private readonly ITypeChecker _typeChecker;
+        private readonly INamespaceChecker _namespaceChecker;
 
-        public ConstructorDependencyChecker(ITypeChecker typeChecker)
+        public ConstructorDependencyChecker(INamespaceChecker namespaceChecker)
         {
-            _typeChecker = typeChecker;
+            _namespaceChecker = namespaceChecker;
         }
 
         public IReadOnlyCollection<ConstructorParameterDependencyError> Check(TypeInfo typeInHappyZone)
@@ -24,7 +24,7 @@ namespace DepChecker
             {
                 foreach (var parameterInfo in constructorInfo.GetParameters())
                 {
-                    var uglyTypeNames = _typeChecker.CheckType(parameterInfo.ParameterType);
+                    var uglyTypeNames = _namespaceChecker.CheckType(parameterInfo.ParameterType);
 
                     foreach (var uglyTypeName in uglyTypeNames)
                     {

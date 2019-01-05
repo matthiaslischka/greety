@@ -1,4 +1,6 @@
+using System.Reflection;
 using Moq;
+using Sample;
 using Xunit;
 
 namespace DepChecker.Tests
@@ -6,20 +8,21 @@ namespace DepChecker.Tests
     public class ConstructorDependencyCheckerTests
     {
         private readonly ConstructorDependencyChecker _checker;
-        private readonly Mock<ITypeChecker> _typeCheckerMock;
+        private readonly Mock<INamespaceChecker> _namespaceCheckerMock;
 
         public ConstructorDependencyCheckerTests()
         {
-            _typeCheckerMock = new Mock<ITypeChecker>();
-            _checker = new ConstructorDependencyChecker(_typeCheckerMock.Object);
+            _namespaceCheckerMock = new Mock<INamespaceChecker>();
+            _checker = new ConstructorDependencyChecker(_namespaceCheckerMock.Object);
         }
 
         [Fact]
         public void ShouldCheckAllParametersOfAllConstructors()
         {
-            _checker.Check<Sample.ClassWithSeveralConstructors>();
-            _typeCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeType)), Times.Exactly(2));
-            _typeCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeOtherType)), Times.Once);
+            _checker.Check(typeof(ClassWithSeveralConstructors).GetTypeInfo());
+
+            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeType)), Times.Exactly(2));
+            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(Sample.SomeOtherType)), Times.Once);
         }
     }
 }

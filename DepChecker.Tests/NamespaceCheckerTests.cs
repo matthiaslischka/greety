@@ -6,13 +6,13 @@ using Xunit;
 
 namespace DepChecker.Tests
 {
-    public class TypeCheckerTests
+    public class NamespaceCheckerTests
     {
-        private readonly TypeChecker _checker;
+        private readonly NamespaceChecker _checker;
 
-        public TypeCheckerTests()
+        public NamespaceCheckerTests()
         {
-            _checker = new TypeChecker();
+            _checker = new NamespaceChecker();
         }
 
         [Fact]

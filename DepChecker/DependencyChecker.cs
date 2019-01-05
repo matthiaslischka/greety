@@ -10,11 +10,11 @@ namespace DepChecker
 
         public DependencyChecker(string happyZoneNamespace)
         {
-            var typeChecker = new TypeChecker();
-            typeChecker.AddLegalNamespace(happyZoneNamespace);
+            var namespaceChecker = new NamespaceChecker();
+            namespaceChecker.AddLegalNamespace(happyZoneNamespace);
 
-            _constructorDependencyChecker = new ConstructorDependencyChecker(typeChecker);
-            _fieldDependencyChecker = new FieldDependencyChecker(typeChecker);
+            _constructorDependencyChecker = new ConstructorDependencyChecker(namespaceChecker);
+            _fieldDependencyChecker = new FieldDependencyChecker(namespaceChecker);
         }
 
         public IReadOnlyCollection<IDependencyError> Check(TypeInfo typeInHappyZone)

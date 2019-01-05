@@ -1,3 +1,4 @@
+using System.Reflection;
 using Moq;
 using Sample;
 using Sample.Nice;
@@ -8,20 +9,21 @@ namespace DepChecker.Tests
     public class FieldDependencyCheckerTests
     {
         private readonly FieldDependencyChecker _checker;
-        private readonly Mock<ITypeChecker> _typeCheckerMock;
+        private readonly Mock<INamespaceChecker> _namespaceCheckerMock;
 
         public FieldDependencyCheckerTests()
         {
-            _typeCheckerMock = new Mock<ITypeChecker>();
-            _checker = new FieldDependencyChecker(_typeCheckerMock.Object);
+            _namespaceCheckerMock = new Mock<INamespaceChecker>();
+            _checker = new FieldDependencyChecker(_namespaceCheckerMock.Object);
         }
 
         [Fact]
         public void ShouldCheckAllFields()
         {
-            _checker.Check<ClassWithSeveralFields>();
-            _typeCheckerMock.Verify(tc => tc.CheckType(typeof(SomeType)), Times.Once);
-            _typeCheckerMock.Verify(tc => tc.CheckType(typeof(SomeOtherType)), Times.Once);
+            _checker.Check(typeof(ClassWithSeveralFields).GetTypeInfo());
+
+            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(SomeType)), Times.Once);
+            _namespaceCheckerMock.Verify(tc => tc.CheckType(typeof(SomeOtherType)), Times.Once);
         }
     }
 }
