@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace DepChecker
 {
@@ -39,6 +40,8 @@ namespace DepChecker
         private IEnumerable<string> CheckNonGenericType(Type typeToCheck)
         {
             var dependingNamespace = typeToCheck.Namespace;
+            Debug.Assert(dependingNamespace != null);
+
             if (!dependingNamespace.StartsWith("System") &&
                 !dependingNamespace.StartsWith(_happyZoneNamespace))
             {
