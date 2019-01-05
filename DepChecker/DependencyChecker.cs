@@ -17,8 +17,8 @@ namespace DepChecker
         {
             var errors = new DependencyErrors();
 
-            errors.AddRange(_constructorDependencyChecker.Check(typeInHappyZone));
-            errors.AddRange(_fieldDependencyChecker.Check(typeInHappyZone));
+            errors.Append(_constructorDependencyChecker.Check(typeInHappyZone));
+            errors.Append(_fieldDependencyChecker.Check(typeInHappyZone));
 
             return errors;
         }
