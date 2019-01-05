@@ -10,7 +10,7 @@ namespace DepChecker
         public DependencyChecker(string happyZoneNamespace)
         {
             _constructorDependencyChecker = new ConstructorDependencyChecker(happyZoneNamespace);
-            _fieldDependencyChecker = new FieldDependencyChecker(happyZoneNamespace);
+            _fieldDependencyChecker = new FieldDependencyChecker(new TypeChecker(happyZoneNamespace));
         }
 
         public DependencyErrors Check(TypeInfo typeInHappyZone)

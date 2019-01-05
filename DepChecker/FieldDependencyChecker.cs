@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace DepChecker
 {
     public class FieldDependencyChecker
     {
-        private readonly string _happyZoneNamespace;
+        private readonly TypeChecker _typeChecker;
 
-        public FieldDependencyChecker(string happyZoneNamespace)
+        public FieldDependencyChecker(TypeChecker typeChecker)
         {
-            _happyZoneNamespace = happyZoneNamespace;
+            _typeChecker = typeChecker;
         }
 
         public DependencyErrors Check(TypeInfo typeInHappyZone)
@@ -19,7 +17,7 @@ namespace DepChecker
 
             foreach (var fieldInfo in typeInHappyZone.DeclaredFields)
             {
-                var uglyTypeNames = CheckType(fieldInfo.FieldType);
+                var uglyTypeNames = _typeChecker.CheckType(fieldInfo.FieldType);
 
                 foreach (var uglyTypeName in uglyTypeNames)
                 {
@@ -28,35 +26,6 @@ namespace DepChecker
             }
 
             return errors;
-        }
-
-        private IEnumerable<string> CheckType(Type typeToCheck)
-        {
-            return typeToCheck.IsGenericType
-                ? CheckGenericType(typeToCheck)
-                : CheckNonGenericType(typeToCheck);
-        }
-
-        private IEnumerable<string> CheckGenericType(Type typeToCheck)
-        {
-            foreach (var type in typeToCheck.GenericTypeArguments)
-            {
-                var uglyTypeNames = CheckNonGenericType(type);
-                foreach (var uglyTypeName in uglyTypeNames)
-                {
-                    yield return uglyTypeName;
-                }
-            }
-        }
-
-        private IEnumerable<string> CheckNonGenericType(Type typeToCheck)
-        {
-            var dependingNamespace = typeToCheck.Namespace;
-            if (!dependingNamespace.StartsWith("System") &&
-                !dependingNamespace.StartsWith(_happyZoneNamespace))
-            {
-                yield return typeToCheck.FullName;
-            }
         }
 
         public class FieldDependencyError : DependencyErrorBase

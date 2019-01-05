@@ -14,7 +14,7 @@ namespace DepChecker.Tests
 
         public FieldDependencyCheckerTests()
         {
-            _checker = new FieldDependencyChecker("Sample.Nice");
+            _checker = new FieldDependencyChecker(new TypeChecker("Sample.Nice"));
         }
 
         [Fact]
